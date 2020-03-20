@@ -1,0 +1,47 @@
+-Launcher Activity
+
+(1) Get Started
+
+(2) Let's Eat
+
+(3) My Progress
+
+(4) //User can somehow access achievements
+
+Also monitors progress.
+
+- Get Started
+
+VEGGIES		|	[SERVING]
+FRUIT		|	[SERVING]
+MEAT		|	[SERVING]
+DAIRY		|	[SERVING]
+
+[SET]			[DEFAULT]
+
+- Achievements
+
+[ACHIEVEMENT]
+[ACHIEVEMENT]
+[ACHIEVEMENT]
+[ACHIEVEMENT]
+[ACHIEVEMENT]
+[ACHIEVEMENT]
+[ACHIEVEMENT]
+
+- Let's Eat
+
+[MEAT]				[FRUIT]
+
+[VEGGIES]			[DAIRY]
+
+		[SAVE]
+
+- My Progress
+
+
+[Graph Image 1]
+
+[Graph Image 2]
+
+
