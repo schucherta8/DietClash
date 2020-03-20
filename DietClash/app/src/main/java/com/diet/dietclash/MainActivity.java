@@ -1,5 +1,6 @@
 package com.diet.dietclash;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -13,6 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+
+    //achivementsButton => MyAchievements(view)
+    //getStartedButton => GetStarted(view)
+    //letsEatButton => LetsEat(view)
+    //myProgressButton => MyProgress(view)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +57,41 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * On click of the user icon, launches the MyAchievements Activity.
+     * @param view
+     */
+    public void myAchievements(View view) {
+        Intent i = new Intent(this, MyAchievements.class);
+        startActivity(i);
+    }
+
+    /**
+     * On click of the Get Started Button, launches the GetStarted Activity.
+     * @param view
+     */
+    public void getStarted(View view) {
+        Intent i = new Intent(this,GetStarted.class);
+        startActivity(i);
+    }
+
+    /**
+     * On click of the Let's Eat Button, launches the LetsEat Activity.
+     * @param view
+     */
+    public void letsEat(View view) {
+        Intent i = new Intent(this, LetsEat.class);
+        startActivity(i);
+    }
+
+    /**
+     * On click of the My Progress Button, launches the MyProgress Activity.
+     * @param view
+     */
+    public void myProgress(View view) {
+        Intent i = new Intent(this, MyProgress.class);
+        startActivity(i);
     }
 }

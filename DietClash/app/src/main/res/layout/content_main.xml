@@ -15,6 +15,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/todo"
+        android:onClick="myAchievements"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars[0]" />
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="72dp"
+        android:onClick="getStarted"
         android:text="@string/get_started"
         app:layout_constraintBottom_toTopOf="@+id/letsEatButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="64dp"
+        android:onClick="letsEat"
         android:text="@string/let_s_eat"
         app:layout_constraintBottom_toTopOf="@+id/myProgressButton"
         app:layout_constraintStart_toStartOf="@+id/myProgressButton" />
@@ -44,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="142dp"
+        android:onClick="myProgress"
         android:text="@string/my_progress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

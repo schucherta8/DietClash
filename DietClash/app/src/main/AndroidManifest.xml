@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".MyProgress"></activity>
+        <activity android:name=".LetsEat" />
+        <activity android:name=".GetStarted" />
+        <activity android:name=".MyAchievements" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
