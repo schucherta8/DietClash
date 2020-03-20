@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Diet Clash!</string>
     <string name="action_settings">Settings</string>
+    <string name="get_started">Get Started</string>
+    <string name="let_s_eat">Let\'s Eat!</string>
+    <string name="my_progress">My Progress</string>
+    <string name="todo">TODO</string>
 </resources>
