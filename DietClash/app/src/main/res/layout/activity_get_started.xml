@@ -6,4 +6,108 @@
     android:layout_height="match_parent"
     tools:context=".GetStarted">
 
+    <TextView
+        android:id="@+id/veggiesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:text="@string/veggies"
+        app:layout_constraintBottom_toBottomOf="@+id/veggiesServingView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/veggiesServingView" />
+
+    <TextView
+        android:id="@+id/dairyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:text="@string/dairy"
+        app:layout_constraintBottom_toBottomOf="@+id/dairyServingsView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dairyServingsView" />
+
+    <TextView
+        android:id="@+id/fruitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fruit"
+        app:layout_constraintBottom_toBottomOf="@+id/fruitServingsView"
+        app:layout_constraintEnd_toEndOf="@+id/dairyTextView"
+        app:layout_constraintStart_toStartOf="@+id/dairyTextView"
+        app:layout_constraintTop_toTopOf="@+id/fruitServingsView" />
+
+    <TextView
+        android:id="@+id/meatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="200dp"
+        android:text="@string/meat"
+        app:layout_constraintBottom_toBottomOf="@+id/dairyTextView"
+        app:layout_constraintEnd_toEndOf="@+id/fruitTextView"
+        app:layout_constraintStart_toStartOf="@+id/veggiesTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/veggiesServingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="102dp"
+        android:layout_marginEnd="126dp"
+        android:text="@string/_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/meatServingsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="200dp"
+        android:text="@string/_0"
+        app:layout_constraintBottom_toBottomOf="@+id/dairyServingsView"
+        app:layout_constraintStart_toStartOf="@+id/veggiesServingView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fruitServingsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="302dp"
+        android:text="@string/_0"
+        app:layout_constraintStart_toStartOf="@+id/meatServingsView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dairyServingsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="79dp"
+        android:text="@string/_0"
+        app:layout_constraintStart_toStartOf="@+id/fruitServingsView"
+        app:layout_constraintTop_toBottomOf="@+id/fruitServingsView" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="#4CAF50"
+        android:onClick="save"
+        android:text="@string/save"
+        app:layout_constraintBaseline_toBaselineOf="@+id/resetButton"
+        app:layout_constraintEnd_toStartOf="@+id/resetButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="177dp"
+        android:onClick="reset"
+        android:text="@string/reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/saveButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

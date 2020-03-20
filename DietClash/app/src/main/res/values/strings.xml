@@ -5,4 +5,11 @@
     <string name="let_s_eat">Let\'s Eat!</string>
     <string name="my_progress">My Progress</string>
     <string name="todo">TODO</string>
+    <string name="veggies">VEGGIES</string>
+    <string name="dairy">DAIRY</string>
+    <string name="fruit">FRUIT</string>
+    <string name="meat">MEAT</string>
+    <string name="_0">0</string>
+    <string name="save">SAVE</string>
+    <string name="reset">RESET</string>
 </resources>
