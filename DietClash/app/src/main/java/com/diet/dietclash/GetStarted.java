@@ -22,10 +22,17 @@ public class GetStarted extends AppCompatActivity {
     TextView meatServingsView;
     TextView dairyServingsView;
 
+    //Default serving sizes
     private static final int VEGGIES_SERVING_DEFAULT = 4;
     private static final int FRUIT_SERVING_DEFAULT = 4;
     private static final int MEAT_SERVING_DEFAULT = 2;
     private static final int DAIRY_SERVING_DEFAULT = 3;
+
+    //Declared serving sizes
+    private int myVeggies;
+    private int myFruit;
+    private int myMeat;
+    private int myDairy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +52,73 @@ public class GetStarted extends AppCompatActivity {
         meatServingsView = findViewById(R.id.meatServingsView);
         dairyServingsView = findViewById(R.id.dairyServingsView);
         getStarted(); //sets all servings to default for now. Will need to pull from DB later.
+        showServings(); //display servings
     }
 
+    /**
+     * Set all serving sizes to the default serving sizes defined.
+     */
     public void getStarted(){
-        veggiesServingsView.setText(String.valueOf(VEGGIES_SERVING_DEFAULT));
-        fruitServingsView.setText(String.valueOf(FRUIT_SERVING_DEFAULT));
-        meatServingsView.setText(String.valueOf(MEAT_SERVING_DEFAULT));
-        dairyServingsView.setText(String.valueOf(DAIRY_SERVING_DEFAULT));
+        myVeggies = VEGGIES_SERVING_DEFAULT;
+        myFruit = FRUIT_SERVING_DEFAULT;
+        myMeat = MEAT_SERVING_DEFAULT;
+        myDairy = DAIRY_SERVING_DEFAULT;
     }
 
+    /**
+     * Display the serving sizes to the user.
+     */
+    public void showServings(){
+        veggiesServingsView.setText(String.valueOf(myVeggies));
+        fruitServingsView.setText(String.valueOf(myFruit));
+        meatServingsView.setText(String.valueOf(myMeat));
+        dairyServingsView.setText(String.valueOf(myDairy));
+    }
+
+    //TODO: Will need to store in DB later.
+
+    /**
+     * Save the user input.
+     * @param view
+     */
     public void save(View view){
-        //Will need to store in DB later.
+
+        //Find all servings views
+        veggiesServingsView = findViewById(R.id.veggiesServingView);
+        fruitServingsView = findViewById(R.id.fruitServingsView);
+        meatServingsView = findViewById(R.id.meatServingsView);
+        dairyServingsView = findViewById(R.id.dairyServingsView);
+
+        //Store assign their new values
+        myVeggies = Integer.parseInt(veggiesServingsView.getText().toString());
+        myFruit = Integer.parseInt(fruitServingsView.getText().toString());
+        myMeat = Integer.parseInt(meatServingsView.getText().toString());
+        myDairy = Integer.parseInt(dairyServingsView.getText().toString());
+
+        //Display new results
+        showServings();
+
+        //Feedback to user
         Snackbar.make(view, "Saving serving sizes", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
+    //TODO: Will need to update the DB later.
+
+    /**
+     * Reset the user serving sizes back to default.
+     * @param view
+     */
     public void reset(View view){
-        //Will need to update in DB later.
+
+        //Reset
+        getStarted();
+
+        //Show results
+        showServings();
+
+        //Feedback to user
         Snackbar.make(view, "Resetting serving sizes", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-        getStarted();
     }
 }

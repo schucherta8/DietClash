@@ -10,104 +10,112 @@
         android:id="@+id/veggiesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
+        android:layout_marginEnd="34dp"
         android:text="@string/veggies"
-        app:layout_constraintBottom_toBottomOf="@+id/veggiesServingView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/veggiesServingView" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/veggiesServingView"
+        app:layout_constraintEnd_toStartOf="@+id/veggiesServingView" />
 
     <TextView
         android:id="@+id/dairyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
         android:text="@string/dairy"
-        app:layout_constraintBottom_toBottomOf="@+id/dairyServingsView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dairyServingsView" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/dairyServingsView"
+        app:layout_constraintEnd_toEndOf="@+id/fruitTextView"
+        app:layout_constraintStart_toStartOf="@+id/veggiesTextView" />
 
     <TextView
         android:id="@+id/fruitTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="51dp"
         android:text="@string/fruit"
-        app:layout_constraintBottom_toBottomOf="@+id/fruitServingsView"
-        app:layout_constraintEnd_toEndOf="@+id/dairyTextView"
-        app:layout_constraintStart_toStartOf="@+id/dairyTextView"
-        app:layout_constraintTop_toTopOf="@+id/fruitServingsView" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/fruitServingsView"
+        app:layout_constraintEnd_toStartOf="@+id/fruitServingsView" />
 
     <TextView
         android:id="@+id/meatTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="7dp"
         android:text="@string/meat"
-        app:layout_constraintBottom_toBottomOf="@+id/dairyTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/meatServingsView"
         app:layout_constraintEnd_toEndOf="@+id/fruitTextView"
-        app:layout_constraintStart_toStartOf="@+id/veggiesTextView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/veggiesServingView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="102dp"
-        android:layout_marginEnd="126dp"
-        android:text="@string/_0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/meatServingsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="200dp"
-        android:text="@string/_0"
-        app:layout_constraintBottom_toBottomOf="@+id/dairyServingsView"
-        app:layout_constraintStart_toStartOf="@+id/veggiesServingView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/fruitServingsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="302dp"
-        android:text="@string/_0"
-        app:layout_constraintStart_toStartOf="@+id/meatServingsView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/dairyServingsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="79dp"
-        android:text="@string/_0"
-        app:layout_constraintStart_toStartOf="@+id/fruitServingsView"
-        app:layout_constraintTop_toBottomOf="@+id/fruitServingsView" />
+        app:layout_constraintStart_toStartOf="@+id/fruitTextView" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="73dp"
         android:background="#4CAF50"
         android:onClick="save"
         android:text="@string/save"
         app:layout_constraintBaseline_toBaselineOf="@+id/resetButton"
-        app:layout_constraintEnd_toStartOf="@+id/resetButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/resetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
+        android:layout_marginTop="178dp"
+        android:layout_marginEnd="79dp"
         android:layout_marginBottom="177dp"
         android:onClick="reset"
         android:text="@string/reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/saveButton" />
+        app:layout_constraintTop_toBottomOf="@+id/fruitServingsView" />
+
+    <EditText
+        android:id="@+id/veggiesServingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="91dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="@string/enter_serving_size"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/meatServingsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="@string/enter_serving_size"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/veggiesServingView" />
+
+    <EditText
+        android:id="@+id/fruitServingsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="@string/enter_serving_size"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meatServingsView" />
+
+    <EditText
+        android:id="@+id/dairyServingsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="@string/enter_serving_size"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fruitServingsView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

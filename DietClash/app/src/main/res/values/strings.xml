@@ -12,4 +12,5 @@
     <string name="_0">0</string>
     <string name="save">SAVE</string>
     <string name="reset">RESET</string>
+    <string name="enter_serving_size">ENTER SERVING SIZE</string>
 </resources>
