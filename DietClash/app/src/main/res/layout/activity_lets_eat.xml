@@ -27,6 +27,7 @@
                 android:background="#E91E63"
                 android:backgroundTint="#F44336"
                 android:paddingHorizontal="40dp"
+                android:onClick="AddMeat"
                 android:text="@string/meat" />
 
 
@@ -39,6 +40,7 @@
                 android:background="#4CAF50"
                 android:backgroundTint="#8BC34A"
                 android:paddingHorizontal="40dp"
+                android:onClick="AddVeggie"
                 android:text="@string/veggies" />
         </TableRow>
 
@@ -78,6 +80,7 @@
                 android:layout_gravity="center"
                 android:background="#F5DCDC"
                 android:paddingHorizontal="40dp"
+                android:onClick="AddDairy"
                 android:text="@string/dairy" />
 
             <Button
@@ -89,6 +92,7 @@
                 android:background="#FFE632"
                 android:backgroundTint="#FFC100"
                 android:paddingHorizontal="40dp"
+                android:onClick="AddFruit"
                 android:text="@string/fruit" />
 
         </TableRow>
@@ -129,6 +133,7 @@
                 android:background="#4CAF50"
                 android:gravity="center"
                 android:paddingHorizontal="40dp"
+                android:onClick="Submit"
                 android:text="@string/save" />
 
             <Button
@@ -138,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingHorizontal="40dp"
+                android:onClick="Reset"
                 android:text="@string/reset" />
         </TableRow>
 
