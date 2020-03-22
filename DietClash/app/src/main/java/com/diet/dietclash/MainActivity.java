@@ -94,4 +94,13 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, MyProgress.class);
         startActivity(i);
     }
+
+    /**
+     * On click of the Stores Near Me Button, launches the StoreLocator Activity.
+     * @param view
+     */
+    public void storesNearMe(View view) {
+        Intent i = new Intent(this, StoreLocator.class);
+        startActivity(i);
+    }
 }
