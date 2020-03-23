@@ -30,6 +30,10 @@ public class StoreLocator extends AppCompatActivity {
         locations.clear();
 
         //get locations
+        String query = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=<API_KEY>&location=<LAT,LONG>&type=grocery_or_supermarket&rankby=distance";
+        //use this query, then parse json
+
+
         locations.add("foobar");
         adapter.notifyDataSetChanged();
     }
