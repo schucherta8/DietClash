@@ -40,8 +40,10 @@
 
             <Button
                 android:id="@+id/getStartedButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="#4CAF50"
                 android:layout_gravity="center"
                 android:onClick="getStarted"
                 android:paddingHorizontal="20dp"
@@ -58,8 +60,10 @@
 
             <Button
                 android:id="@+id/letsEatButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#FFE632"
                 android:layout_gravity="center"
                 android:onClick="letsEat"
                 android:paddingHorizontal="20dp"
@@ -76,9 +80,11 @@
 
             <Button
                 android:id="@+id/myProgressButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="#F5DCDC"
                 android:onClick="myProgress"
                 android:paddingHorizontal="20dp"
                 android:text="@string/my_progress" />
@@ -95,9 +101,11 @@
 
             <Button
                 android:id="@+id/storesNearMeButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="#FF9800"
                 android:onClick="storesNearMe"
                 android:paddingHorizontal="20dp"
                 android:text="@string/stores_near_me" />
@@ -113,9 +121,11 @@
 
             <Button
                 android:id="@+id/bossRoomButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="#E91E63"
                 android:onClick="bossRoom"
                 android:paddingHorizontal="20dp"
                 android:text="@string/boss_room" />
