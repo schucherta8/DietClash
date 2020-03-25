@@ -94,4 +94,13 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, StoreLocator.class);
         startActivity(i);
     }
+
+    /**
+     * On click of the Boss Room Button, launches the BossRoom Activity.
+     * @param view
+     */
+    public void bossRoom(View view) {
+        Intent i = new Intent(this, BossRoom.class);
+        startActivity(i);
+    }
 }
