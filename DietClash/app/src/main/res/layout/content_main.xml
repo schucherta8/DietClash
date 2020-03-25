@@ -39,15 +39,16 @@
             android:padding="20dp">
 
             <Button
-                android:id="@+id/getStartedButton"
+                android:id="@+id/letsEatButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="#4CAF50"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:onClick="getStarted"
+                android:background="#FFE632"
+                android:onClick="letsEat"
                 android:paddingHorizontal="20dp"
-                android:text="@string/get_started" />
+                android:text="@string/let_s_eat" />
+
         </TableRow>
 
         <TableRow
@@ -58,16 +59,6 @@
             android:gravity="center"
             android:padding="20dp">
 
-            <Button
-                android:id="@+id/letsEatButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#FFE632"
-                android:layout_gravity="center"
-                android:onClick="letsEat"
-                android:paddingHorizontal="20dp"
-                android:text="@string/let_s_eat" />
         </TableRow>
 
         <TableRow
@@ -88,6 +79,7 @@
                 android:onClick="myProgress"
                 android:paddingHorizontal="20dp"
                 android:text="@string/my_progress" />
+
         </TableRow>
 
 
@@ -118,6 +110,27 @@
             android:layout_marginVertical="5dp"
             android:gravity="center"
             android:padding="20dp">
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:gravity="center"
+            android:padding="20dp">
+
+            <Button
+                android:id="@+id/getStartedButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#4CAF50"
+                android:onClick="getStarted"
+                android:paddingHorizontal="20dp"
+                android:text="@string/get_started" />
 
             <Button
                 android:id="@+id/bossRoomButton"
