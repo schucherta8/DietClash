@@ -79,7 +79,7 @@ public class StoreLocator extends AppCompatActivity {
                     String query = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=<API_KEY>&location="+
                             latitude+","+
                             longitude+"&type=grocery_or_supermarket&rankby=distance";
-                    
+
                     //use this query, then parse json
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, query,
                             new Response.Listener<String>() {
@@ -90,7 +90,9 @@ public class StoreLocator extends AppCompatActivity {
                                         JSONArray results = jsonResponse.getJSONArray("results");
                                         for(int i = 0; i < DISPLAY_COUNT && i < results.length(); ++i) {
                                             JSONObject entry = results.getJSONObject(i);
-                                            locations.add(entry.getString("name"));
+                                            String name = entry.getString("name");
+                                            String vicinity = entry.getString("vicinity");
+                                            locations.add(name+"\n"+vicinity);
                                             adapter.notifyDataSetChanged();
                                         }
                                     } catch(JSONException e) {
