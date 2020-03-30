@@ -5,66 +5,113 @@
 5    android:versionName="1.0" >
 6
 7    <uses-sdk
-8        android:minSdkVersion="26"
-8-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml
+8        android:minSdkVersion="19"
+8-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml
+9-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml
 10
-11    <application
-11-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:5:5-28:19
-12        android:allowBackup="true"
-12-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:6:9-35
-13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-13-->[androidx.core:core:1.0.1] /Users/aschuchert/.gradle/caches/transforms-2/files-2.1/8f8ab13dc8f4e84e14a8bb3d9ac92bc4/core-1.0.1/AndroidManifest.xml:22:18-86
-14        android:debuggable="true"
-15        android:icon="@mipmap/ic_launcher"
-15-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:7:9-43
-16        android:label="@string/app_name"
-16-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:8:9-41
-17        android:roundIcon="@mipmap/ic_launcher_round"
-17-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:9:9-54
-18        android:supportsRtl="true"
-18-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:10:9-35
-19        android:testOnly="true"
-20        android:theme="@style/AppTheme" >
-20-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:11:9-40
-21        <activity android:name="com.diet.dietclash.BossRoom" />
-21-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:12:9-55
-21-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:12:19-43
-22        <activity android:name="com.diet.dietclash.MyProgress" />
-22-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:13:9-48
-22-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:13:19-45
-23        <activity android:name="com.diet.dietclash.LetsEat" />
-23-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:14:9-45
-23-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:14:19-42
-24        <activity android:name="com.diet.dietclash.GetStarted" />
-24-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:15:9-48
-24-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:15:19-45
-25        <activity android:name="com.diet.dietclash.MyAchievements" />
-25-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:16:9-52
-25-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:16:19-49
-26        <activity android:name="com.diet.dietclash.StoreLocator" />
-26-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:17:9-50
-26-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:17:19-47
-27        <activity
-27-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:18:9-27:20
-28            android:name="com.diet.dietclash.MainActivity"
-28-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:19:13-41
-29            android:label="@string/app_name"
-29-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:20:13-45
-30            android:theme="@style/AppTheme.NoActionBar" >
-30-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:21:13-56
-31            <intent-filter>
-31-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:22:13-26:29
-32                <action android:name="android.intent.action.MAIN" />
-32-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:23:17-69
-32-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:23:25-66
-33
-34                <category android:name="android.intent.category.LAUNCHER" />
-34-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:25:17-77
-34-->/Users/aschuchert/CS5520/DietClash/DietClash/app/src/main/AndroidManifest.xml:25:27-74
-35            </intent-filter>
-36        </activity>
-37    </application>
-38
-39</manifest>
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:5:5-67
+11-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+12-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:6:5-78
+12-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:6:22-76
+13
+14    <application
+14-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:7:5-31:19
+15        android:allowBackup="true"
+15-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:8:9-35
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.1.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:18-86
+17        android:debuggable="true"
+18        android:icon="@mipmap/ic_launcher"
+18-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:9:9-43
+19        android:label="@string/app_name"
+19-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:10:9-41
+20        android:roundIcon="@mipmap/ic_launcher_round"
+20-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:11:9-54
+21        android:supportsRtl="true"
+21-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:12:9-35
+22        android:testOnly="true"
+23        android:theme="@style/AppTheme" >
+23-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:13:9-40
+24        <activity android:name="com.diet.dietclash.BossRoom" />
+24-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:14:9-46
+24-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:14:19-43
+25        <activity android:name="com.diet.dietclash.MyProgress" />
+25-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:15:9-48
+25-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:15:19-45
+26        <activity android:name="com.diet.dietclash.LetsEat" />
+26-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:16:9-45
+26-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:16:19-42
+27        <activity android:name="com.diet.dietclash.GetStarted" />
+27-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:17:9-48
+27-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:17:19-45
+28        <activity android:name="com.diet.dietclash.MyAchievements" />
+28-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:18:9-52
+28-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:18:19-49
+29        <activity android:name="com.diet.dietclash.StoreLocator" />
+29-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:19:9-50
+29-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:19:19-47
+30        <activity
+30-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:20:9-29:20
+31            android:name="com.diet.dietclash.MainActivity"
+31-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:21:13-41
+32            android:label="@string/app_name"
+32-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:22:13-45
+33            android:theme="@style/AppTheme.NoActionBar" >
+33-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:23:13-56
+34            <intent-filter>
+34-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:24:13-28:29
+35                <action android:name="android.intent.action.MAIN" />
+35-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:25:17-69
+35-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:25:25-66
+36
+37                <category android:name="android.intent.category.LAUNCHER" />
+37-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:27:17-77
+37-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:27:27-74
+38            </intent-filter>
+39        </activity>
+40
+41        <receiver android:name="com.diet.dietclash.NotificationReminder" />
+41-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:30:9-67
+41-->C:\Users\Ben\Documents\GitHub\DietClash\DietClash\app\src\main\AndroidManifest.xml:30:19-55
+42
+43        <service
+43-->[androidx.room:room-runtime:2.2.5] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\805a1d2e9b3fbae882408f53634ffae8\room-runtime-2.2.5\AndroidManifest.xml:25:9-28:40
+44            android:name="androidx.room.MultiInstanceInvalidationService"
+44-->[androidx.room:room-runtime:2.2.5] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\805a1d2e9b3fbae882408f53634ffae8\room-runtime-2.2.5\AndroidManifest.xml:26:13-74
+45            android:directBootAware="true"
+45-->[androidx.room:room-runtime:2.2.5] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\805a1d2e9b3fbae882408f53634ffae8\room-runtime-2.2.5\AndroidManifest.xml:27:13-43
+46            android:exported="false" />
+46-->[androidx.room:room-runtime:2.2.5] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\805a1d2e9b3fbae882408f53634ffae8\room-runtime-2.2.5\AndroidManifest.xml:28:13-37
+47
+48        <activity
+48-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\77c2fc448e2bd0738fd67dce062b1efd\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+49            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+49-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\77c2fc448e2bd0738fd67dce062b1efd\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+50            android:exported="false"
+50-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\77c2fc448e2bd0738fd67dce062b1efd\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+51            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+51-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\77c2fc448e2bd0738fd67dce062b1efd\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+52
+53        <meta-data
+53-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\47103e32f016f4699a455b642c12e8cf\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+54            android:name="com.google.android.gms.version"
+54-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\47103e32f016f4699a455b642c12e8cf\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+55            android:value="@integer/google_play_services_version" />
+55-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\47103e32f016f4699a455b642c12e8cf\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+56
+57        <provider
+57-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:25:9-29:43
+58            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+58-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:26:13-79
+59            android:authorities="com.diet.dietclash.lifecycle-process"
+59-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:27:13-69
+60            android:exported="false"
+60-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:28:13-37
+61            android:multiprocess="true" />
+61-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Ben\.gradle\caches\transforms-2\files-2.1\58629c19fa6c616abd60edc0d2bb07b8\lifecycle-process-2.2.0\AndroidManifest.xml:29:13-40
+62    </application>
+63
+64</manifest>
