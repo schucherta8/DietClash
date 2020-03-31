@@ -20,14 +20,16 @@
             android:gravity="center"
             android:padding="30dp">
 
-            <ImageView
-                android:id="@+id/achivementsButton"
+            <Button
+                android:id="@+id/achievements"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:contentDescription="@string/todo"
+                android:background="#D4AF37"
                 android:onClick="myAchievements"
-                android:paddingHorizontal="20dp" />
+                android:paddingHorizontal="20dp"
+                android:text="@string/my_achievements" />
         </TableRow>
 
         <TableRow
@@ -146,3 +148,4 @@
 
     </TableLayout>
 </LinearLayout>
+
