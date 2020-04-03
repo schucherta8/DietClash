@@ -175,9 +175,7 @@ public class LetsEat extends AppCompatActivity {
         }
         for(String c: servings.keySet()) {
             ContentValues values = new ContentValues();
-            values.put(FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, c);
             values.put(FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT, servings.get(c));
-            values.put(FoodEntryContract.FoodEntry.COLUMN_NAME_DATE, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             String[] whereArgs = {c, new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
             db.update(FoodEntryContract.FoodEntry.TABLE_NAME, values, FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY+"=? AND "
                     +FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", whereArgs);
