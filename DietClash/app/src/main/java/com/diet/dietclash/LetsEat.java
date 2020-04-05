@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 public class LetsEat extends AppCompatActivity {
 
+    //Current Counts
     private TextView meatText;
     private TextView veggieText;
     private TextView fruitText;
@@ -27,6 +28,16 @@ public class LetsEat extends AppCompatActivity {
     private int veggieCount;
     private int fruitCount;
     private int dairyCount;
+
+    //Total Counts
+    private TextView dbMeatText;
+    private TextView dbVeggieText;
+    private TextView dbFruitText;
+    private TextView dbDairyText;
+    private int dbMeatCount;
+    private int dbVeggieCount;
+    private int dbFruitCount;
+    private int dbDairyCount;
 
     private FoodDBHelper helper;
     private SQLiteDatabase db;
@@ -46,6 +57,12 @@ public class LetsEat extends AppCompatActivity {
         veggieText = findViewById(R.id.currentVeggiesServing);
         fruitText = findViewById(R.id.currentFruitServing);
         dairyText = findViewById(R.id.currentDairyServing);
+
+        dbMeatText = findViewById(R.id.dbMeatServing);
+        dbVeggieText = findViewById(R.id.dbVeggiesServing);
+        dbFruitText = findViewById(R.id.dbFruitServing);
+        dbDairyText = findViewById(R.id.dbDairyServing);
+
         meatCount = veggieCount = fruitCount = dairyCount = 0;
 
         //db
@@ -53,7 +70,7 @@ public class LetsEat extends AppCompatActivity {
         db = helper.getWritableDatabase();
 
         // reading values in db. Leaving for now
-        /*String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
+        String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
         String[] args = {new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
         Cursor cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", args, null, null, null);
 
@@ -64,40 +81,58 @@ public class LetsEat extends AppCompatActivity {
                     cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT));
             switch(category) {
                 case MEAT_CATEGORY:
-                    meatCount = amount;
+                    dbMeatCount = amount;
                     break;
                 case VEGGIE_CATEGORY:
-                    veggieCount = amount;
+                    dbVeggieCount = amount;
                     break;
                 case FRUIT_CATEGORY:
-                    fruitCount = amount;
+                    dbFruitCount = amount;
                     break;
                 case DAIRY_CATEGORY:
-                    dairyCount = amount;
+                    dbDairyCount = amount;
                     break;
             }
 
         }
-        cursor.close();*/
+        cursor.close();
 
         //update text
-        this.updateMeat();
-        this.updateVeggie();
-        this.updateFruit();
-        this.updateDairy();
+        refreshAll();
     }
 
     private void updateMeat() {
-        meatText.setText(String.valueOf(meatCount));
+        String update = "Current: "+String.valueOf(meatCount);
+        meatText.setText(update);
     }
     private void updateVeggie() {
-        veggieText.setText(String.valueOf(veggieCount));
+        String update = "Current: "+String.valueOf(veggieCount);
+        veggieText.setText(update);
     }
     private void updateFruit() {
-        fruitText.setText(String.valueOf(fruitCount));
+        String update = "Current: "+String.valueOf(fruitCount);
+        fruitText.setText(update);
     }
     private void updateDairy() {
-        dairyText.setText(String.valueOf(dairyCount));
+        String update = "Current: "+String.valueOf(dairyCount);
+        dairyText.setText(update);
+    }
+
+    private void updateDbMeat() {
+        String update = "Total: "+String.valueOf(dbMeatCount);
+        dbMeatText.setText(update);
+    }
+    private void updateDbVeggie() {
+        String update = "Total: "+String.valueOf(dbVeggieCount);
+        dbVeggieText.setText(update);
+    }
+    private void updateDbFruit() {
+        String update = "Total: "+String.valueOf(dbFruitCount);
+        dbFruitText.setText(update);
+    }
+    private void updateDbDairy() {
+        String update = "Total: "+String.valueOf(dbDairyCount);
+        dbDairyText.setText(update);
     }
 
     public void AddMeat(View view) {
@@ -184,21 +219,29 @@ public class LetsEat extends AppCompatActivity {
 
 
         meatCount = veggieCount = fruitCount = dairyCount = 0;
-        this.updateMeat();
-        this.updateVeggie();
-        this.updateFruit();
-        this.updateDairy();
+        refreshAll();
         Snackbar.make(view, "Saved food information", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
     public void Reset(View view) {
         meatCount = veggieCount = fruitCount = dairyCount = 0;
+        refreshAll();
+        Snackbar.make(view, "Food information reset", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    private void refreshAll(){
+        //Current
         this.updateMeat();
         this.updateVeggie();
         this.updateFruit();
         this.updateDairy();
-        Snackbar.make(view, "Food information reset", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+
+        //Total
+        this.updateDbMeat();
+        this.updateDbVeggie();
+        this.updateDbFruit();
+        this.updateDbDairy();
     }
 }
