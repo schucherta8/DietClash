@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class FoodDBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Food.db";
 
     /**
@@ -35,9 +35,9 @@ public class FoodDBHelper extends SQLiteOpenHelper {
      * }
      */
     private static final String CREATE_STRING_SERVINGS = "CREATE TABLE "+ FoodServingsContract.FoodServings.TABLE_NAME +
-            " ("+ FoodEntryContract.FoodEntry._ID + " INTEGER PRIMARY KEY," +
-            FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY+" TEXT," +
-            FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT+" INTEGER)";
+            " ("+ FoodServingsContract.FoodServings._ID + " INTEGER PRIMARY KEY," +
+            FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+" TEXT," +
+            FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT+" INTEGER)";
 
     /**
      * DROP_STRING Constant:

@@ -39,6 +39,7 @@ public class LetsEat extends AppCompatActivity {
     private int dbFruitCount;
     private int dbDairyCount;
 
+    //SQL Database
     private FoodDBHelper helper;
     private SQLiteDatabase db;
 
