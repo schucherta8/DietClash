@@ -63,8 +63,13 @@ public class LetsEat extends AppCompatActivity {
         dbFruitText = findViewById(R.id.dbFruitServing);
         dbDairyText = findViewById(R.id.dbDairyServing);
 
-        meatCount = veggieCount = fruitCount = dairyCount = 0;
+        //set inputs to zero.
+        resetInput();
+        //update text with reset and db read
+        refreshAll();
+    }
 
+    private void readDb(){
         //db
         helper = new FoodDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
@@ -96,9 +101,6 @@ public class LetsEat extends AppCompatActivity {
 
         }
         cursor.close();
-
-        //update text
-        refreshAll();
     }
 
     private void updateMeat() {
@@ -170,6 +172,10 @@ public class LetsEat extends AppCompatActivity {
         }
     }
 
+    private void resetInput(){
+        meatCount = veggieCount = fruitCount = dairyCount = 0;
+    }
+
     public void Submit(View view) {
         if(meatCount == 0 && veggieCount == 0 && fruitCount == 0 && dairyCount == 0) {
             Snackbar.make(view, "Please enter food information", Snackbar.LENGTH_LONG)
@@ -217,8 +223,7 @@ public class LetsEat extends AppCompatActivity {
         }
 
 
-
-        meatCount = veggieCount = fruitCount = dairyCount = 0;
+        resetInput();
         refreshAll();
         Snackbar.make(view, "Saved food information", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
@@ -237,6 +242,9 @@ public class LetsEat extends AppCompatActivity {
         this.updateVeggie();
         this.updateFruit();
         this.updateDairy();
+
+        //Pull in data from the db.
+        readDb();
 
         //Total
         this.updateDbMeat();

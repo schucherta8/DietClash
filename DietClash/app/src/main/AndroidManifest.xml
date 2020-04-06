@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyProgress2"></activity>
         <activity android:name=".BossRoom" />
         <activity android:name=".MyProgress" />
         <activity android:name=".LetsEat" />
