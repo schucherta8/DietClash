@@ -64,6 +64,10 @@ public class LetsEat extends AppCompatActivity {
         dbFruitText = findViewById(R.id.dbFruitServing);
         dbDairyText = findViewById(R.id.dbDairyServing);
 
+        //db
+        helper = new FoodDBHelper(getApplicationContext());
+        db = helper.getWritableDatabase();
+
         //set inputs to zero.
         resetInput();
         //update text with reset and db read
@@ -71,10 +75,6 @@ public class LetsEat extends AppCompatActivity {
     }
 
     private void readDb(){
-        //db
-        helper = new FoodDBHelper(getApplicationContext());
-        db = helper.getWritableDatabase();
-
         // reading values in db. Leaving for now
         String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
         String[] args = {new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
