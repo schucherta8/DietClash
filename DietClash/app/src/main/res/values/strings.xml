@@ -22,4 +22,6 @@
     <string name="achievement_name">Achievement1</string>
     <string name="achievement_description">Place a description here</string>
     <string name="progress_completion">50%</string>
+    <string name="daily_goal">Daily Goal</string>
+    <string name="weekly_goal">Weekly Goal</string>
 </resources>

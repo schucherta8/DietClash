@@ -10,5 +10,7 @@ public final class FoodServingsContract {
         public static final String TABLE_NAME = "servings";
         public static final String COLUMN_NAME_CATEGORY = "category";
         public static final String COLUMN_NAME_AMOUNT = "amount";
+        public static final String COLUMN_NAME_START_DATE = "start";
+        public static final String COLUMN_NAME_END_DATE = "end";
     }
 }
