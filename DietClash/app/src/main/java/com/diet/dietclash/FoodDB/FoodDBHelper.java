@@ -36,10 +36,12 @@ public class FoodDBHelper extends SQLiteOpenHelper {
      */
     private static final String CREATE_STRING_SERVINGS = "CREATE TABLE "+ FoodServingsContract.FoodServings.TABLE_NAME +
             " ("+ FoodServingsContract.FoodServings._ID + " INTEGER PRIMARY KEY," +
-            FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+" TEXT," +
-            FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT+" INTEGER," +
+            FoodServingsContract.FoodServings.COLUMN_NAME_MEAT+" INTEGER," +
+            FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT+" INTEGER," +
+            FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY+" INTEGER," +
+            FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE+" INTEGER," +
             FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+" TEXT," +
-            FoodServingsContract.FoodServings.COLUMN_NAME_END_DATE+" TEXT)";
+            FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+" INTEGER)";
 
     /**
      * DROP_STRING Constant:

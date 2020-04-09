@@ -7,12 +7,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class GetStarted extends AppCompatActivity {
@@ -33,6 +36,10 @@ public class GetStarted extends AppCompatActivity {
     TextView fruitServingsView;
     TextView meatServingsView;
     TextView dairyServingsView;
+
+    //Radio Buttons
+    RadioButton daily;
+    RadioButton weekly;
 
     //Default serving sizes
     private static final int VEGGIES_SERVING_DEFAULT = 4;
@@ -73,6 +80,10 @@ public class GetStarted extends AppCompatActivity {
         fruitServingsView = findViewById(R.id.fruitServingsView);
         meatServingsView = findViewById(R.id.meatServingsView);
         dairyServingsView = findViewById(R.id.dairyServingsView);
+
+        daily = findViewById(R.id.daily);
+        weekly = findViewById(R.id.weekly);
+
         getStarted(); //sets all servings to default if no entries in db. Else, read from db.
         showServings(); //display servings
     }
@@ -84,16 +95,16 @@ public class GetStarted extends AppCompatActivity {
         //Read from the db.
         readDb();
         //If no entries in the DB, or servings set to zero, set to default.
-        if(myDbVeggies==0) {
+        if(myDbVeggies==-1) {
             myVeggies = VEGGIES_SERVING_DEFAULT;
         }
-        if(myDbFruit==0){
+        if(myDbFruit==-1){
             myFruit = FRUIT_SERVING_DEFAULT;
         }
-        if(myDbMeat==0) {
+        if(myDbMeat==-1) {
             myMeat = MEAT_SERVING_DEFAULT;
         }
-        if(myDbDairy==0){
+        if(myDbDairy==-1){
             myDairy = DAIRY_SERVING_DEFAULT;
         }
     }
@@ -104,59 +115,64 @@ public class GetStarted extends AppCompatActivity {
         db = helper.getWritableDatabase();
 
       // reading values in db
-        String[] projection = {FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY, FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT};
+        String[] projection = {FoodServingsContract.FoodServings.COLUMN_NAME_MEAT,
+                FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT,
+                FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY,
+                FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE};
 
-        Cursor cMeat = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {MEAT_CATEGORY},
-                null,null,null);
+        //first, check for a daily goal
+        Cursor cursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
+                FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND "+
+                        FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?",
+                new String[] {"1", new SimpleDateFormat("yyyy-MM-dd").format(new Date())}, null, null, null, "1");
+        //we now have the daily goal set for today, if any
 
-        Cursor cVeggies = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {VEGGIE_CATEGORY},
-                null,null,null);
-
-        Cursor cFruit = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {FRUIT_CATEGORY},
-                null,null,null);
-
-        Cursor cDairy = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {DAIRY_CATEGORY},
-                null,null,null);
-
-        while(cMeat.moveToNext()){
-            String categoryMeat = cMeat.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            myDbMeat = cMeat.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
+        if(cursor.getCount() == 0) {
+            //we have to check for weekly
+            //this is going to be a bit trickier
+            String[] args = new String[8]; //duration and 7 days
+            args[0] = "7";
+            String selectString = FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND (";
+            for(int i = 0; i < 7; ++i) {
+                args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60)));
+                selectString = selectString + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
+                if(i == 6) {
+                    selectString = selectString + ")";
+                } else {
+                    selectString = selectString + " OR ";
+                }
+            }
+            cursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection, selectString, args, null, null, null, "1");
+            if(cursor.getCount() > 0) {
+                //we have a weekly goal, but not a daily one. Show it's weekly
+                weekly.setChecked(true);
+                daily.setChecked(false);
+            } else {
+                cursor.close();
+                cursor = null; //there's nothing in the db, we'll use our defaults
+            }
         }
 
-        while(cVeggies.moveToNext()){
-            String categoryVeggies = cVeggies.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            myDbVeggies = cVeggies.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
+        if(cursor == null) {
+            myDbMeat = myDbFruit = myDbDairy = myDbVeggies = -1; //show we could not read from db
+        } else {
+            while(cursor.moveToNext()) { //should only happen once
+                myDbMeat = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_MEAT));
+                myDbFruit = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT));
+                myDbDairy = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY));
+                myDbVeggies = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
+            }
         }
 
-        while(cFruit.moveToNext()){
-            String categoryFruit = cFruit.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            myDbFruit = cFruit.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
+        if(cursor != null) {
+            cursor.close();
         }
-
-        while(cDairy.moveToNext()){
-            String categoryDairy = cDairy.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            myDbDairy= cDairy.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
-        }
-
-        cMeat.close();
-        cVeggies.close();
-        cFruit.close();
-        cDairy.close();
 
         //Set to the values stored in the db
         myMeat = myDbMeat;
         myVeggies = myDbVeggies;
         myFruit = myDbFruit;
         myDairy = myDbDairy;
-
     }
 
     private int getQuantity(String category) {
@@ -189,137 +205,68 @@ public class GetStarted extends AppCompatActivity {
      * @param view
      */
     public void save(View view){
-        //Collect all serving goals. If not present, we will insert them later.
-        HashMap<String, Integer> servings = new HashMap<String, Integer>();
-
-        //Categories for looping
-        String[] categories = {MEAT_CATEGORY, VEGGIE_CATEGORY, FRUIT_CATEGORY, DAIRY_CATEGORY};
-
-        //DB Read with Projections
-        String[] projection = {FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY, FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT};
-
-        Cursor cMeat = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {MEAT_CATEGORY},
-                null,null,null);
-
-        Cursor cVeggies = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {VEGGIE_CATEGORY},
-                null,null,null);
-
-        Cursor cFruit = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {FRUIT_CATEGORY},
-                null,null,null);
-
-        Cursor cDairy = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
-                FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",
-                new String[] {DAIRY_CATEGORY},
-                null,null,null);
-
-        //Collect the amount for each category and store in hash map
-
-        while(cMeat.moveToNext()){
-            String category = cMeat.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            int amount = cMeat.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
-            if(amount == -1) {
-                //this should never happen; something is wrong
-                Snackbar.make(view, "Bad value in db", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                continue;
-            }
-            servings.put(category, amount);
-        }
-
-        while(cVeggies.moveToNext()){
-            String category = cVeggies.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            int amount = cVeggies.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
-            if(amount == -1) {
-                //this should never happen; something is wrong
-                Snackbar.make(view, "Bad value in db", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                continue;
-            }
-            servings.put(category, amount);
-        }
-
-        while(cFruit.moveToNext()){
-            String category = cFruit.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            int amount = cFruit.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
-            if(amount == -1) {
-                //this should never happen; something is wrong
-                Snackbar.make(view, "Bad value in db", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                continue;
-            }
-            servings.put(category, amount);
-        }
-
-        while(cDairy.moveToNext()){
-            String category = cDairy.getString(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY));
-            int amount = cDairy.getInt(cMeat.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT));
-        if(amount == -1) {
-            //this should never happen; something is wrong
-            Snackbar.make(view, "Bad value in db", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            continue;
-        }
-        servings.put(category, amount);
-        }
-
-        //Close all cursors
-        cMeat.close();
-        cVeggies.close();
-        cFruit.close();
-        cDairy.close();
-
-        //Insert any entries in the DB if they do not exist
-        for(String c : categories) {
-            if(!servings.containsKey(c)) {
-                //no entry in db - insert new one
-                ContentValues values = new ContentValues();
-                values.put(FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY, c);
-                values.put(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT, getQuantity(c));
-                db.insert(FoodServingsContract.FoodServings.TABLE_NAME, null, values);
-            }
-        }
-
-        //Find all servings views
-        veggiesServingsView = findViewById(R.id.veggiesServingView);
-        fruitServingsView = findViewById(R.id.fruitServingsView);
-        meatServingsView = findViewById(R.id.meatServingsView);
-        dairyServingsView = findViewById(R.id.dairyServingsView);
-
         //Store assign their new values
-        myVeggies = Integer.parseInt(veggiesServingsView.getText().toString());
-        myFruit = Integer.parseInt(fruitServingsView.getText().toString());
-        myMeat = Integer.parseInt(meatServingsView.getText().toString());
-        myDairy = Integer.parseInt(dairyServingsView.getText().toString());
+        try {
+            myVeggies = Integer.parseInt(veggiesServingsView.getText().toString());
+        } catch (Error e) {
+            myVeggies = 0;
+        }
+        try {
+            myFruit = Integer.parseInt(fruitServingsView.getText().toString());
+        } catch (Error e) {
+            myFruit = 0;
+        }
+        try {
+            myMeat = Integer.parseInt(meatServingsView.getText().toString());
+        } catch (Error e) {
+            myMeat = 0;
+        }
+        try {
+            myDairy = Integer.parseInt(dairyServingsView.getText().toString());
+        } catch (Error e) {
+            myDairy = 0;
+        }
+        //update the db
+        ContentValues values = new ContentValues();
+        values.put(FoodServingsContract.FoodServings.COLUMN_NAME_MEAT, myMeat);
+        values.put(FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT, myFruit);
+        values.put(FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY, myDairy);
+        values.put(FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE, myVeggies);
 
-        /*//update the db
-        for(Map.Entry<String, Integer> entry : servings.entrySet()) {
-            String category = entry.getKey();
-            int amount = entry.getValue();
-            ContentValues values = new ContentValues();
-            //store amount tied to category key.
-            values.put(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT, amount);
-            db.update(FoodServingsContract.FoodServings.TABLE_NAME, //update servings
-                    values, //set amount = amount
-                    FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"?", //WHERE Category =?
-                    new String[] {category});
-        }*/
-
-        for(String c: servings.keySet()) {
-            ContentValues values = new ContentValues();
-            //store amount tied to category key.
-            values.put(FoodServingsContract.FoodServings.COLUMN_NAME_AMOUNT, servings.get(c));
-            //argument is the category type
-            String [] args = {c};
-            db.update(FoodServingsContract.FoodServings.TABLE_NAME, values,
-                    FoodServingsContract.FoodServings.COLUMN_NAME_CATEGORY+"=?",args);
+        //assume it's all weekly or daily
+        int duration = 7;
+        if(daily.isChecked()) {
+            duration = 1;
         }
 
+        String args[];
+        String where = FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND ";
+        if(duration == 1) {
+            where = where + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
+            args = new String[]{"1", new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
+        } else {
+            where = where + "(";
+            args = new String[8];
+            args[0] = "7";
+            for(int i = 0; i < 7; ++i) {
+                args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60)));
+                where = where + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
+                if(i == 6) {
+                    where = where + ")";
+                } else {
+                    where = where + " OR ";
+                }
+            }
+        }
+
+        int changed = db.update(FoodServingsContract.FoodServings.TABLE_NAME, //update servings
+                values, where, args);
+        if(changed == 0) {
+            //there was no goal to update - let's insert one
+            values.put(FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            values.put(FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS, duration);
+            db.insert(FoodServingsContract.FoodServings.TABLE_NAME, null, values);
+        }
 
         //Display new results
         showServings();
@@ -328,8 +275,6 @@ public class GetStarted extends AppCompatActivity {
         Snackbar.make(view, "Saving serving sizes", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
-
-    //TODO: Will need to update the DB later.
 
     /**
      * Reset the user serving sizes back to default.
