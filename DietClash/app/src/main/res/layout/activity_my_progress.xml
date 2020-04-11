@@ -6,4 +6,106 @@
     android:layout_height="match_parent"
     tools:context=".MyProgress">
 
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:stretchColumns="*"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/daily_goal" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/meat_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meat" />
+
+            <TextView
+                android:id="@+id/fruit_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fruit" />
+
+            <TextView
+                android:id="@+id/dairy_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dairy" />
+
+            <TextView
+                android:id="@+id/veggie_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/veggies" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/weekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weekly_goal" />
+
+            <TextView
+                android:id="@+id/ends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ends" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/meat_weekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meat" />
+
+            <TextView
+                android:id="@+id/fruit_weekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fruit" />
+
+            <TextView
+                android:id="@+id/dairy_weekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dairy" />
+
+            <TextView
+                android:id="@+id/veggie_weekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/veggies" />
+        </TableRow>
+
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
