@@ -40,7 +40,8 @@
                 android:id="@+id/meat_daily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/meat" />
+                android:text="@string/meat"
+                android:editable="true"/>
 
             <TextView
                 android:id="@+id/fruit_daily"
@@ -75,7 +76,7 @@
                 android:id="@+id/ends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ends" />
+                android:text="@string/ends" />
         </TableRow>
 
         <TableRow

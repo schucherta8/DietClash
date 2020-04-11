@@ -16,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 public class GetStarted extends AppCompatActivity {
 
