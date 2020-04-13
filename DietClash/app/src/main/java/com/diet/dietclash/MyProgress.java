@@ -7,9 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
+import com.diet.dietclash.FoodDB.FoodEntryContract;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
+import com.diet.dietclash.util.Constants;
 import com.google.android.material.snackbar.Snackbar;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -104,29 +108,91 @@ public class MyProgress extends AppCompatActivity {
             }
         }
 
-        //TODO: get data from db
+        cursor.close();
+
+        //update eaten values
+        int[] eaten = getEatenQuantities(db);
+
+        //we've got our ints, now to set text
+        meatDaily.setText("Meat: "+eaten[0]+"/"+dailyMeatGoal);
+        fruitDaily.setText("Fruit: "+eaten[1]+"/"+dailyFruitGoal);
+        dairyDaily.setText("Dairy: "+eaten[2]+"/"+dailyDairyGoal);
+        veggieDaily.setText("Veggies: "+eaten[3]+"/"+dailyVeggieGoal);
+
+        ends.setText("Ends: "+weeklyEnds);
+
+        meatWeekly.setText("Meat: "+eaten[0]+"/"+weeklyMeatGoal);
+        fruitWeekly.setText("Fruit: "+eaten[1]+"/"+weeklyFruitGoal);
+        dairyWeekly.setText("Dairy: "+eaten[2]+"/"+weeklyDairyGoal);
+        veggieWeekly.setText("Veggies: "+eaten[3]+"/"+weeklyVeggieGoal);
+    }
+
+    private int[] getEatenQuantities(SQLiteDatabase db) {
         int dailyEatenMeat = 0;
         int dailyEatenFruit = 0;
         int dailyEatenDairy = 0;
         int dailyEatenVeggie = 0;
+        String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
+        String[] args = {new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
+        Cursor cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", args, null, null, null);
 
-        //TODO: get data from db
+        while(cursor.moveToNext()) {
+            String category = cursor.getString(
+                    cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY));
+            int amount = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT));
+            switch(category) {
+                case Constants.MEAT_CATEGORY:
+                    dailyEatenMeat = amount;
+                    break;
+                case Constants.VEGGIE_CATEGORY:
+                    dailyEatenVeggie = amount;
+                    break;
+                case Constants.FRUIT_CATEGORY:
+                    dailyEatenFruit = amount;
+                case Constants.DAIRY_CATEGORY:
+                    dailyEatenDairy = amount;
+                    break;
+            }
+        }
+
+        args = new String[7]; //duration and 7 days
+        String selectString = "";
+        for(int i = 0; i < 7; ++i) {
+            args[i] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60 * 24)));
+            selectString = selectString + FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?";
+            if(i != 6) {
+                selectString = selectString + " OR ";
+            }
+        }
         int weeklyEatenMeat = 0;
         int weeklyEatenFruit = 0;
         int weeklyEatenDairy = 0;
         int weeklyEatenVeggie = 0;
+        cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, selectString, args, null, null, null);
+        while(cursor.moveToNext()) {
+            String category = cursor.getString(
+                    cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY));
+            int amount = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT));
+            switch(category) {
+                case Constants.MEAT_CATEGORY:
+                    weeklyEatenMeat += amount;
+                    break;
+                case Constants.VEGGIE_CATEGORY:
+                    weeklyEatenVeggie += amount;
+                    break;
+                case Constants.FRUIT_CATEGORY:
+                    weeklyEatenFruit += amount;
+                case Constants.DAIRY_CATEGORY:
+                    weeklyEatenDairy += amount;
+                    break;
+            }
+        }
 
-        //we've got our ints, now to set text
-        meatDaily.setText("Meat: "+dailyEatenMeat+"/"+dailyMeatGoal);
-        fruitDaily.setText("Fruit: "+dailyEatenFruit+"/"+dailyFruitGoal);
-        dairyDaily.setText("Dairy: "+dailyEatenDairy+"/"+dailyDairyGoal);
-        veggieDaily.setText("Veggies: "+dailyEatenVeggie+"/"+dailyVeggieGoal);
+        cursor.close();
 
-        ends.setText("Ends: "+weeklyEnds);
-
-        meatWeekly.setText("Meat: "+weeklyEatenMeat+"/"+weeklyMeatGoal);
-        fruitWeekly.setText("Fruit: "+weeklyEatenFruit+"/"+weeklyFruitGoal);
-        dairyWeekly.setText("Dairy: "+weeklyEatenDairy+"/"+weeklyDairyGoal);
-        veggieWeekly.setText("Veggies: "+weeklyEatenVeggie+"/"+weeklyVeggieGoal);
+        return new int[]{dailyEatenMeat, dailyEatenFruit, dailyEatenDairy, dailyEatenVeggie,
+                weeklyEatenMeat, weeklyEatenFruit, weeklyEatenDairy, weeklyEatenVeggie};
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
+import com.diet.dietclash.util.Constants;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
@@ -42,11 +43,6 @@ public class LetsEat extends AppCompatActivity {
     //SQL Database
     private FoodDBHelper helper;
     private SQLiteDatabase db;
-
-    static final String MEAT_CATEGORY = "meat";
-    static final String VEGGIE_CATEGORY = "veggie";
-    static final String FRUIT_CATEGORY = "fruit";
-    static final String DAIRY_CATEGORY = "dairy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,16 +82,16 @@ public class LetsEat extends AppCompatActivity {
             int amount = cursor.getInt(
                     cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT));
             switch(category) {
-                case MEAT_CATEGORY:
+                case Constants.MEAT_CATEGORY:
                     dbMeatCount = amount;
                     break;
-                case VEGGIE_CATEGORY:
+                case Constants.VEGGIE_CATEGORY:
                     dbVeggieCount = amount;
                     break;
-                case FRUIT_CATEGORY:
+                case Constants.FRUIT_CATEGORY:
                     dbFruitCount = amount;
                     break;
-                case DAIRY_CATEGORY:
+                case Constants.DAIRY_CATEGORY:
                     dbDairyCount = amount;
                     break;
             }
@@ -160,13 +156,13 @@ public class LetsEat extends AppCompatActivity {
 
     private int getQuantity(String category) {
         switch(category) {
-            case MEAT_CATEGORY:
+            case Constants.MEAT_CATEGORY:
                 return meatCount;
-            case VEGGIE_CATEGORY:
+            case Constants.VEGGIE_CATEGORY:
                 return veggieCount;
-            case DAIRY_CATEGORY:
+            case Constants.DAIRY_CATEGORY:
                 return dairyCount;
-            case FRUIT_CATEGORY:
+            case Constants.FRUIT_CATEGORY:
                 return fruitCount;
             default:
                 return -1;
@@ -204,7 +200,8 @@ public class LetsEat extends AppCompatActivity {
             servings.put(category, amount+enteredAmount);
         }
         cursor.close();
-        String[] categories = {MEAT_CATEGORY, VEGGIE_CATEGORY, FRUIT_CATEGORY, DAIRY_CATEGORY};
+        String[] categories = {Constants.MEAT_CATEGORY, Constants.VEGGIE_CATEGORY,
+                Constants.FRUIT_CATEGORY, Constants.DAIRY_CATEGORY};
         for(String c : categories) {
             if(!servings.containsKey(c)) {
                 //no entry in db - insert new one
@@ -222,7 +219,6 @@ public class LetsEat extends AppCompatActivity {
             db.update(FoodEntryContract.FoodEntry.TABLE_NAME, values, FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY+"=? AND "
                     +FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", whereArgs);
         }
-
 
         resetInput();
         refreshAll();
