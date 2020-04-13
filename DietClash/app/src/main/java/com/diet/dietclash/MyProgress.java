@@ -98,7 +98,7 @@ public class MyProgress extends AppCompatActivity {
             }
             if(endDate != null) {
                 long time = endDate.getTime();
-                time += 7 * 1000 * 60 * 60;
+                time += 7 * 1000 * 60 * 60 * 24;
                 endDate.setTime(time);
                 weeklyEnds = format.format(endDate);
             }

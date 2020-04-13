@@ -133,7 +133,7 @@ public class GetStarted extends AppCompatActivity {
             args[0] = "7";
             String selectString = FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND (";
             for(int i = 0; i < 7; ++i) {
-                args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60)));
+                args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60 * 24)));
                 selectString = selectString + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
                 if(i == 6) {
                     selectString = selectString + ")";
@@ -248,7 +248,7 @@ public class GetStarted extends AppCompatActivity {
             args = new String[8];
             args[0] = "7";
             for(int i = 0; i < 7; ++i) {
-                args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60)));
+                args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60 * 24)));
                 where = where + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
                 if(i == 6) {
                     where = where + ")";
