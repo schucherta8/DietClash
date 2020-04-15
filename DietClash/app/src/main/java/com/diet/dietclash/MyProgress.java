@@ -10,6 +10,11 @@ import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
 import com.diet.dietclash.util.Constants;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.snackbar.Snackbar;
 import android.widget.TextView;
 
@@ -17,33 +22,98 @@ import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MyProgress extends AppCompatActivity {
+
+    TextView meatDaily;
+    TextView fruitDaily;
+    TextView dairyDaily;
+    TextView veggieDaily;
+    TextView ends;
+    TextView meatWeekly;
+    TextView fruitWeekly;
+    TextView dairyWeekly;
+    TextView veggieWeekly;
+
+    int dailyMeatGoal;
+    int dailyFruitGoal;
+    int dailyDairyGoal;
+    int dailyVeggieGoal;
+    int weeklyMeatGoal;
+    int weeklyFruitGoal;
+    int weeklyDairyGoal;
+    int weeklyVeggieGoal;
+
+    int dailyEatenMeat;
+    int dailyEatenFruit;
+    int dailyEatenDairy;
+    int dailyEatenVeggie;
+    int weeklyEatenMeat;
+    int weeklyEatenFruit;
+    int weeklyEatenDairy;
+    int weeklyEatenVeggie;
+
+    BarChart barChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_progress);
-        //daily views
-        TextView meatDaily = findViewById(R.id.meat_daily);
-        TextView fruitDaily = findViewById(R.id.fruit_daily);
-        TextView dairyDaily = findViewById(R.id.dairy_daily);
-        TextView veggieDaily = findViewById(R.id.veggie_daily);
-
-        //end date view
-        TextView ends = findViewById(R.id.ends);
-
-        //weekly views
-        TextView meatWeekly = findViewById(R.id.meat_weekly);
-        TextView fruitWeekly = findViewById(R.id.fruit_weekly);
-        TextView dairyWeekly = findViewById(R.id.dairy_weekly);
-        TextView veggieWeekly = findViewById(R.id.veggie_weekly);
 
         //load in db
         FoodDBHelper helper = new FoodDBHelper(getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
+        setupTextViews();
+        loadDb(db);
+        setupBarChart();
+    }
 
+    private void setupTextViews(){
+        //daily views
+        meatDaily = findViewById(R.id.meat_daily);
+        fruitDaily = findViewById(R.id.fruit_daily);
+        dairyDaily = findViewById(R.id.dairy_daily);
+        veggieDaily = findViewById(R.id.veggie_daily);
+
+        //end date view
+        ends = findViewById(R.id.ends);
+
+        //weekly views
+        meatWeekly = findViewById(R.id.meat_weekly);
+        fruitWeekly = findViewById(R.id.fruit_weekly);
+        dairyWeekly = findViewById(R.id.dairy_weekly);
+        veggieWeekly = findViewById(R.id.veggie_weekly);
+    }
+
+    private void setupBarChart(){
+        // BEGIN INITIALIZING CHART
+
+        barChart = (BarChart) findViewById(R.id.barchart);
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        entries.add(new BarEntry(weeklyEatenMeat/weeklyMeatGoal, 0));
+        entries.add(new BarEntry(weeklyEatenFruit/weeklyFruitGoal, 1));
+        entries.add(new BarEntry(weeklyEatenVeggie/weeklyVeggieGoal, 2));
+        entries.add(new BarEntry(weeklyEatenDairy/weeklyDairyGoal, 3));
+
+        BarDataSet bardataset = new BarDataSet(entries, "Food Groups");
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("Meat");
+        labels.add("Fruit");
+        labels.add("Veggie");
+        labels.add("Dairy");
+
+        BarData data = new BarData(labels, bardataset);
+        barChart.setData(data); // set the data and list of labels into chart
+        barChart.setDescription("Percentage Weekly Food Consumption");  // set the description
+        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        barChart.animateY(5000);
+    }
+
+    private void loadDb(SQLiteDatabase db){
         // reading values in db
         String[] projection = {FoodServingsContract.FoodServings.COLUMN_NAME_MEAT,
                 FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT,
@@ -51,10 +121,10 @@ public class MyProgress extends AppCompatActivity {
                 FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE,
                 FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE};
 
-        int dailyMeatGoal = 0;
-        int dailyFruitGoal = 0;
-        int dailyDairyGoal = 0;
-        int dailyVeggieGoal = 0;
+        dailyMeatGoal = 0;
+        dailyFruitGoal = 0;
+        dailyDairyGoal = 0;
+        dailyVeggieGoal = 0;
         //first, check for a daily goal
         Cursor cursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
                 FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND "+
@@ -67,10 +137,10 @@ public class MyProgress extends AppCompatActivity {
             dailyVeggieGoal = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
         }
 
-        int weeklyMeatGoal = 0;
-        int weeklyFruitGoal = 0;
-        int weeklyDairyGoal = 0;
-        int weeklyVeggieGoal = 0;
+        weeklyMeatGoal = 0;
+        weeklyFruitGoal = 0;
+        weeklyDairyGoal = 0;
+        weeklyVeggieGoal = 0;
         String weeklyEnds = "N/A";
         //check for weekly goal
         String[] args = new String[8]; //duration and 7 days
@@ -128,10 +198,10 @@ public class MyProgress extends AppCompatActivity {
     }
 
     private int[] getEatenQuantities(SQLiteDatabase db) {
-        int dailyEatenMeat = 0;
-        int dailyEatenFruit = 0;
-        int dailyEatenDairy = 0;
-        int dailyEatenVeggie = 0;
+        dailyEatenMeat = 0;
+        dailyEatenFruit = 0;
+        dailyEatenDairy = 0;
+        dailyEatenVeggie = 0;
         String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
         String[] args = {new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
         Cursor cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", args, null, null, null);
@@ -165,10 +235,10 @@ public class MyProgress extends AppCompatActivity {
                 selectString = selectString + " OR ";
             }
         }
-        int weeklyEatenMeat = 0;
-        int weeklyEatenFruit = 0;
-        int weeklyEatenDairy = 0;
-        int weeklyEatenVeggie = 0;
+        weeklyEatenMeat = 0;
+        weeklyEatenFruit = 0;
+        weeklyEatenDairy = 0;
+        weeklyEatenVeggie = 0;
         cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, selectString, args, null, null, null);
         while(cursor.moveToNext()) {
             String category = cursor.getString(

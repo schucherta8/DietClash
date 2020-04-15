@@ -113,7 +113,7 @@ public class GetStarted extends AppCompatActivity {
         helper = new FoodDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
 
-      // reading values in db
+        // reading values in db
         String[] projection = {FoodServingsContract.FoodServings.COLUMN_NAME_MEAT,
                 FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT,
                 FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY,

@@ -6,13 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MyProgress">
 
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barchart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +26,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/daily"
@@ -34,14 +38,14 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/meat_daily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/meat"
-                android:editable="true"/>
+                android:editable="true"
+                android:text="@string/meat" />
 
             <TextView
                 android:id="@+id/fruit_daily"
@@ -64,7 +68,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/weekly"
@@ -81,7 +85,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/meat_weekly"
