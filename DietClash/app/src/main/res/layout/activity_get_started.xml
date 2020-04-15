@@ -47,7 +47,7 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="73dp"
+        android:layout_marginStart="68dp"
         android:background="#4CAF50"
         android:onClick="save"
         android:text="@string/save"
@@ -73,10 +73,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="91dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="304dp"
         android:ems="10"
         android:hint="@string/enter_serving_size"
         android:importantForAutofill="no"
         android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,4 +120,35 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fruitServingsView" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="237dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="230dp"
+        android:checkedButton="@id/daily"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/resetButton"
+        app:layout_constraintStart_toStartOf="@+id/saveButton"
+        app:layout_constraintTop_toBottomOf="@+id/veggiesServingView">
+
+        <RadioButton
+            android:id="@+id/daily"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/daily_goal" />
+
+        <RadioButton
+            android:id="@+id/weekly"
+            android:layout_width="251dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/weekly_goal" />
+
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
