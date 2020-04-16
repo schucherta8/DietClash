@@ -93,10 +93,37 @@ public class MyProgress extends AppCompatActivity {
         barChart = (BarChart) findViewById(R.id.barchart);
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(weeklyEatenMeat/weeklyMeatGoal, 0));
-        entries.add(new BarEntry(weeklyEatenFruit/weeklyFruitGoal, 1));
-        entries.add(new BarEntry(weeklyEatenVeggie/weeklyVeggieGoal, 2));
-        entries.add(new BarEntry(weeklyEatenDairy/weeklyDairyGoal, 3));
+        float weeklyMeatBar;
+        if(weeklyMeatGoal == 0) {
+            weeklyMeatBar = 0;
+        } else {
+            weeklyMeatBar = (float)weeklyEatenMeat/(float)weeklyMeatGoal;
+        }
+        entries.add(new BarEntry(weeklyMeatBar, 0));
+
+        float weeklyFruitBar;
+        if(weeklyFruitGoal == 0) {
+            weeklyFruitBar = 0;
+        } else {
+            weeklyFruitBar = (float)weeklyEatenFruit/(float)weeklyFruitGoal;
+        }
+        entries.add(new BarEntry(weeklyFruitBar, 1));
+
+        float weeklyVeggieBar;
+        if(weeklyVeggieGoal == 0) {
+            weeklyVeggieBar = 0;
+        } else {
+            weeklyVeggieBar = (float)weeklyEatenVeggie/(float)weeklyVeggieGoal;
+        }
+        entries.add(new BarEntry(weeklyVeggieBar, 2));
+
+        float weeklyDairyBar;
+        if(weeklyDairyGoal == 0) {
+            weeklyDairyBar = 0;
+        } else {
+            weeklyDairyBar = (float)weeklyEatenDairy/(float)weeklyDairyGoal;
+        }
+        entries.add(new BarEntry(weeklyDairyBar, 3));
 
         BarDataSet bardataset = new BarDataSet(entries, "Food Groups");
 
