@@ -11,6 +11,7 @@ import com.diet.dietclash.FoodDB.FoodEntryContract;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
 import com.diet.dietclash.util.Constants;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -91,6 +92,10 @@ public class MyProgress extends AppCompatActivity {
         // BEGIN INITIALIZING CHART
 
         barChart = (BarChart) findViewById(R.id.barchart);
+        YAxis yAxis = barChart.getAxisLeft();
+        YAxis yAxis2 = barChart.getAxisRight();
+        yAxis.setAxisMinValue(0f);
+        yAxis2.setAxisMinValue(0f);
 
         ArrayList<BarEntry> entries = new ArrayList<>();
         float weeklyMeatBar;
@@ -126,6 +131,7 @@ public class MyProgress extends AppCompatActivity {
         entries.add(new BarEntry(weeklyDairyBar, 3));
 
         BarDataSet bardataset = new BarDataSet(entries, "Food Groups");
+
 
         ArrayList<String> labels = new ArrayList<String>();
         labels.add("Meat");
