@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class FoodDBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Food.db";
 
     /**
@@ -44,6 +44,29 @@ public class FoodDBHelper extends SQLiteOpenHelper {
             FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+" INTEGER)";
 
     /**
+     * CREATE TABLE achievements {
+     *     id Int,
+     *     title Text,
+     *     description Text,
+     *     progress Int,
+     *     goal Int,
+     *     completed Int(0 or 1);
+     * }
+     * ------------------------------------------------------------------------------------------------------
+     * |achievement_title|achievement_description|achievement_progress|achievement_goal|achievement_completed|
+     * ------------------------------------------------------------------------------------------------------
+     * |       TEXT      |          TEXT         |      INTEGER       |     INTEGER    |     INTEGER{0,1}   |
+     * ------------------------------------------------------------------------------------------------------
+     */
+    private static final String CREATE_STRING_ACHIEVEMENTS = "CREATE TABLE "
+            + FoodAchievementsContract.FoodAchievements.TABLE_NAME
+            + " ("+ FoodAchievementsContract.FoodAchievements._ID + " INTEGER PRIMARY KEY,"
+            + FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE + " TEXT,"
+            + FoodAchievementsContract.FoodAchievements.COLUMN_NAME_DESCRIPTION + " TEXT,"
+            + FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS + " INTEGER,"
+            + FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL + " INTEGER,"
+            + FoodAchievementsContract.FoodAchievements.COLUMN_NAME_COMPLETED + " INTEGER)";
+    /**
      * DROP_STRING Constant:
      * FoodEntryContract Drop Table
      * DROP TABLE IF EXISTS food;
@@ -57,12 +80,22 @@ public class FoodDBHelper extends SQLiteOpenHelper {
      */
     private static final String DROP_STRING_SERVINGS = "DROP TABLE IF EXISTS "+ FoodServingsContract.FoodServings.TABLE_NAME;
 
+    /**
+     * DROP_STRING_ACHIEVEMENTS Constant:
+     * FoodAchievementsContract Drop table
+     * DROP TABLE IF EXISTS achievements;
+     */
+    private static final String DROP_STRING_ACHIEVEMENTS = "DROP TABLE IF EXISTS "
+            + FoodAchievementsContract.FoodAchievements.TABLE_NAME;
+
     public FoodDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //Create achievements table
+        db.execSQL(CREATE_STRING_ACHIEVEMENTS);
         //Create the servings table respecting referential integrity
         db.execSQL(CREATE_STRING_SERVINGS);
         //Create the food table
@@ -71,6 +104,8 @@ public class FoodDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        //Drop the achievements table
+        db.execSQL(DROP_STRING_ACHIEVEMENTS);
         //Drop the servings table respecting referential integrity
         db.execSQL(DROP_STRING_SERVINGS);
         //Drop the food table

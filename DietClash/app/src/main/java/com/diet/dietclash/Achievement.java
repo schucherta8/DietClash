@@ -9,45 +9,59 @@ public class Achievement {
 
     private String title;
     private String description;
-    private int completed;
-    private int total;
+    private int progress;
+    private int goal;
+    private boolean isCompleted;
 
-    public Achievement(String title, String description, int part,int total){
+    /**
+     * Constructor for Achievement object
+     * @param title is a string that contains an achievement's title
+     * @param description is a string that contains an achievement's description
+     * @param progress is an integer that contains the progress to an achievement's goal
+     * @param goal is an integer that contains the goal of an achievement
+     */
+    public Achievement(String title, String description,
+                       int progress,int goal, boolean isCompleted){
         this.title = title;
         this.description = description;
-        this.completed = part;
-        this.total = total;
+        this.progress = progress;
+        this.goal = goal;
+        this.isCompleted = isCompleted;
     }
 
+    public void setProgress(int progress){
+        this.progress = progress;
+    }
+    public void setGoal(int goal){
+        this.goal = goal;
+    }
+    public void setIsCompleted(boolean isCompleted){this.isCompleted = isCompleted;}
     public String getTitle() {
         return title;
     }
-
     public String getDescription() {
         return description;
     }
-
-    public void setCompleted(int part){
-        this.completed = part;
+    public int getProgress(){
+        return progress;
     }
-    public int getCompleted(){
-        return completed;
+    public int getGoal(){
+        return goal;
     }
-    public void setTotal(int total){
-        this.total = total;
-    }
-    public int getTotal(){
-        return total;
-    }
+    public boolean getIsCompleted(){return isCompleted;}
 
     /**
      * This method computes the progress percentage towards completing an achievement.
      *
      * @return the progress percentage.
      * @throws ArithmeticException if dividing by zero.
+     * @throws IllegalStateException if progress is negative
      */
-    public double getPercentage() throws ArithmeticException {
-        if(total <= 0){throw new ArithmeticException("Cannot divide by zero");}
-        return (completed / total) * 100;
+    public double getPercentage() throws ArithmeticException, IllegalStateException {
+        if(progress < 0){throw new IllegalStateException("Cannot be negative");}
+        if(goal <= 0){throw new ArithmeticException("Cannot divide by zero");}
+        return (progress / goal) * 100;
     }
+
+
 }
