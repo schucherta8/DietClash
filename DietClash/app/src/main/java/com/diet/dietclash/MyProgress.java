@@ -130,6 +130,11 @@ public class MyProgress extends AppCompatActivity {
         }
         entries.add(new BarEntry(weeklyDairyBar, 3));
 
+        if(weeklyMeatBar < 1 && weeklyFruitBar < 1 && weeklyDairyBar < 1 && weeklyVeggieBar < 1) {
+            yAxis.setAxisMaxValue(1f);
+            yAxis2.setAxisMaxValue(1f);
+        }
+
         BarDataSet bardataset = new BarDataSet(entries, "Food Groups");
 
 
@@ -287,6 +292,7 @@ public class MyProgress extends AppCompatActivity {
                     break;
                 case Constants.FRUIT_CATEGORY:
                     weeklyEatenFruit += amount;
+                    break;
                 case Constants.DAIRY_CATEGORY:
                     weeklyEatenDairy += amount;
                     break;
