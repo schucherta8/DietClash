@@ -36,6 +36,8 @@ public class GetStarted extends AppCompatActivity {
     TextView meatServingsView;
     TextView dairyServingsView;
 
+    TextView warning;
+
     //Radio Buttons
     RadioButton daily;
     RadioButton weekly;
@@ -61,6 +63,8 @@ public class GetStarted extends AppCompatActivity {
     //SQL Database
     private FoodDBHelper helper;
     private SQLiteDatabase db;
+    private boolean currentDailyGoal = false;
+    private boolean currentWeeklyGoal = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +87,29 @@ public class GetStarted extends AppCompatActivity {
         daily = findViewById(R.id.daily);
         weekly = findViewById(R.id.weekly);
 
+        warning = findViewById(R.id.warning);
+
         getStarted(); //sets all servings to default if no entries in db. Else, read from db.
         showServings(); //display servings
+        ToggleWarning(null);
+    }
+
+    public void ToggleWarning(View view) {
+        if(daily.isChecked()) {
+            if(currentDailyGoal) {
+                warning.setText("Creating a new daily goal will erase your previous one.");
+            } else {
+                warning.setText("");
+            }
+        }
+
+        if(weekly.isChecked()) {
+            if(currentWeeklyGoal) {
+                warning.setText("Creating a new weekly goal will erase your previous one.");
+            } else {
+                warning.setText("");
+            }
+        }
     }
 
     /**
@@ -120,51 +145,54 @@ public class GetStarted extends AppCompatActivity {
                 FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE};
 
         //first, check for a daily goal
-        Cursor cursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
+        Cursor dailyCursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection,
                 FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND "+
                         FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?",
                 new String[] {"1", new SimpleDateFormat("yyyy-MM-dd").format(new Date())}, null, null, null, "1");
         //we now have the daily goal set for today, if any
 
-        if(cursor.getCount() == 0) {
-            //we have to check for weekly
-            //this is going to be a bit trickier
-            String[] args = new String[8]; //duration and 7 days
-            args[0] = "7";
-            String selectString = FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND (";
-            for(int i = 0; i < 7; ++i) {
-                args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60 * 24)));
-                selectString = selectString + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
-                if(i == 6) {
-                    selectString = selectString + ")";
-                } else {
-                    selectString = selectString + " OR ";
-                }
-            }
-            cursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection, selectString, args, null, null, null, "1");
-            if(cursor.getCount() > 0) {
-                //we have a weekly goal, but not a daily one. Show it's weekly
-                weekly.setChecked(true);
-                daily.setChecked(false);
+        currentDailyGoal = dailyCursor.getCount() > 0;
+
+        //check for weekly
+        String[] args = new String[8]; //duration and 7 days
+        args[0] = "7";
+        String selectString = FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND (";
+        for(int i = 0; i < 7; ++i) {
+            args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60 * 24)));
+            selectString = selectString + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
+            if(i == 6) {
+                selectString = selectString + ")";
             } else {
-                cursor.close();
-                cursor = null; //there's nothing in the db, we'll use our defaults
+                selectString = selectString + " OR ";
             }
         }
+        Cursor weeklyCursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection, selectString, args, null, null, null, "1");
 
-        if(cursor == null) {
+        currentWeeklyGoal = weeklyCursor.getCount() > 0;
+
+        if(!currentDailyGoal && !currentWeeklyGoal) {
             myDbMeat = myDbFruit = myDbDairy = myDbVeggies = -1; //show we could not read from db
-        } else {
-            while(cursor.moveToNext()) { //should only happen once
-                myDbMeat = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_MEAT));
-                myDbFruit = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT));
-                myDbDairy = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY));
-                myDbVeggies = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
+        }
+
+        if(currentWeeklyGoal && !currentDailyGoal) {
+            //we have a weekly goal, but not a daily one. Show it's weekly
+            weekly.setChecked(true);
+            daily.setChecked(false);
+            while(weeklyCursor.moveToNext()) { //should only happen once
+                myDbMeat = weeklyCursor.getInt(weeklyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_MEAT));
+                myDbFruit = weeklyCursor.getInt(weeklyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT));
+                myDbDairy = weeklyCursor.getInt(weeklyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY));
+                myDbVeggies = weeklyCursor.getInt(weeklyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
             }
         }
 
-        if(cursor != null) {
-            cursor.close();
+        if(currentDailyGoal) {
+            while(dailyCursor.moveToNext()) { //should only happen once
+                myDbMeat = dailyCursor.getInt(dailyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_MEAT));
+                myDbFruit = dailyCursor.getInt(dailyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT));
+                myDbDairy = dailyCursor.getInt(dailyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY));
+                myDbVeggies = dailyCursor.getInt(dailyCursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
+            }
         }
 
         //Set to the values stored in the db
@@ -172,6 +200,9 @@ public class GetStarted extends AppCompatActivity {
         myVeggies = myDbVeggies;
         myFruit = myDbFruit;
         myDairy = myDbDairy;
+
+        dailyCursor.close();
+        weeklyCursor.close();
     }
 
     private int getQuantity(String category) {
@@ -270,8 +301,16 @@ public class GetStarted extends AppCompatActivity {
         //Display new results
         showServings();
 
+        if(daily.isChecked()) {
+            currentDailyGoal = true;
+        }
+
+        if(weekly.isChecked()) {
+            currentWeeklyGoal = true;
+        }
+
         //Feedback to user
-        Snackbar.make(view, "Saving serving sizes", Snackbar.LENGTH_LONG)
+        Snackbar.make(view, "Saved serving goal", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

@@ -10,28 +10,34 @@
         android:id="@+id/veggiesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="115dp"
         android:layout_marginEnd="34dp"
         android:text="@string/veggies"
-        app:layout_constraintBaseline_toBaselineOf="@+id/veggiesServingView"
-        app:layout_constraintEnd_toStartOf="@+id/veggiesServingView" />
+        app:layout_constraintEnd_toStartOf="@+id/veggiesServingView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dairyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
         android:text="@string/dairy"
-        app:layout_constraintBaseline_toBaselineOf="@+id/dairyServingsView"
-        app:layout_constraintEnd_toEndOf="@+id/fruitTextView"
-        app:layout_constraintStart_toStartOf="@+id/veggiesTextView" />
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toStartOf="@+id/dairyServingsView"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/fruitTextView"
+        app:layout_constraintVertical_bias="0.682" />
 
     <TextView
         android:id="@+id/fruitTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="51dp"
+        android:layout_marginTop="78dp"
         android:text="@string/fruit"
-        app:layout_constraintBaseline_toBaselineOf="@+id/fruitServingsView"
-        app:layout_constraintEnd_toStartOf="@+id/fruitServingsView" />
+        app:layout_constraintEnd_toEndOf="@+id/dairyTextView"
+        app:layout_constraintStart_toStartOf="@+id/dairyTextView"
+        app:layout_constraintTop_toBottomOf="@+id/meatTextView" />
 
     <TextView
         android:id="@+id/meatTextView"
@@ -47,40 +53,34 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
+        android:layout_marginTop="24dp"
         android:background="#4CAF50"
         android:onClick="save"
         android:text="@string/save"
-        app:layout_constraintBaseline_toBaselineOf="@+id/resetButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/warning" />
 
     <Button
         android:id="@+id/resetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="178dp"
-        android:layout_marginEnd="79dp"
-        android:layout_marginBottom="177dp"
+        android:layout_marginTop="24dp"
         android:onClick="reset"
         android:text="@string/reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fruitServingsView" />
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/warning" />
 
     <EditText
         android:id="@+id/veggiesServingView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="91dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="304dp"
         android:ems="10"
         android:hint="@string/enter_serving_size"
         android:importantForAutofill="no"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/veggiesTextView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/meatServingsView"
@@ -99,14 +99,13 @@
         android:id="@+id/fruitServingsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="@string/enter_serving_size"
         android:importantForAutofill="no"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meatServingsView" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/fruitTextView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/dairyServingsView"
@@ -125,21 +124,20 @@
         android:id="@+id/radioGroup"
         android:layout_width="237dp"
         android:layout_height="32dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="230dp"
+        android:layout_marginTop="15dp"
         android:checkedButton="@id/daily"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/resetButton"
-        app:layout_constraintStart_toStartOf="@+id/saveButton"
-        app:layout_constraintTop_toBottomOf="@+id/veggiesServingView">
+        app:layout_constraintBottom_toTopOf="@+id/warning"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dairyServingsView">
 
         <RadioButton
             android:id="@+id/daily"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="ToggleWarning"
             android:text="@string/daily_goal" />
 
         <RadioButton
@@ -147,8 +145,21 @@
             android:layout_width="251dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="ToggleWarning"
             android:text="@string/weekly_goal" />
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="25dp"
+        android:text="Warning"
+        app:layout_constraintBottom_toTopOf="@+id/resetButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
