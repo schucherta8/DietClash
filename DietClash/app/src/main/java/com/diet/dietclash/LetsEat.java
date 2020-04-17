@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
@@ -40,6 +41,16 @@ public class LetsEat extends AppCompatActivity {
     private int dbFruitCount;
     private int dbDairyCount;
 
+    //db weekly
+    private TextView dbWeeklyMeatText;
+    private TextView dbWeeklyVeggieText;
+    private TextView dbWeeklyFruitText;
+    private TextView dbWeeklyDairyText;
+    private int weeklyEatenMeat;
+    private int weeklyEatenFruit;
+    private int weeklyEatenDairy;
+    private int weeklyEatenVeggie;
+
     //SQL Database
     private FoodDBHelper helper;
     private SQLiteDatabase db;
@@ -59,6 +70,11 @@ public class LetsEat extends AppCompatActivity {
         dbVeggieText = findViewById(R.id.dbVeggiesServing);
         dbFruitText = findViewById(R.id.dbFruitServing);
         dbDairyText = findViewById(R.id.dbDairyServing);
+
+        dbWeeklyMeatText = findViewById(R.id.dbWeeklyMeat);
+        dbWeeklyVeggieText = findViewById(R.id.dbWeeklyVeg);
+        dbWeeklyDairyText = findViewById(R.id.dbWeeklyDairy);
+        dbWeeklyFruitText = findViewById(R.id.dbWeeklyFruit);
 
         //db
         helper = new FoodDBHelper(getApplicationContext());
@@ -248,5 +264,64 @@ public class LetsEat extends AppCompatActivity {
         this.updateDbVeggie();
         this.updateDbFruit();
         this.updateDbDairy();
+
+        //Check Achievements
+        checkAchievements();
+    }
+
+    private void checkAchievements(){
+        //find our weekly progress for food eaten
+        getWeeklyEatenQuantities();
+        String update = "Weekly Total: "+String.valueOf(weeklyEatenMeat);
+        dbWeeklyMeatText.setText(update);
+        update = "Weekly Total: "+String.valueOf(weeklyEatenFruit);
+        dbWeeklyFruitText.setText(update);
+        update = "Weekly Total: "+String.valueOf(weeklyEatenDairy);
+        dbWeeklyDairyText.setText(update);
+        update = "Weekly Total: "+String.valueOf(weeklyEatenVeggie);
+        dbWeeklyVeggieText.setText(update);
+    }
+
+    private void getWeeklyEatenQuantities(){
+        String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
+        String[] args = {new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
+        Cursor cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", args, null, null, null);
+
+        args = new String[7]; //duration and 7 days
+        String selectString = "";
+        for(int i = 0; i < 7; ++i) {
+            args[i] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60 * 24)));
+            selectString = selectString + FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?";
+            if(i != 6) {
+                selectString = selectString + " OR ";
+            }
+        }
+        weeklyEatenMeat = 0;
+        weeklyEatenFruit = 0;
+        weeklyEatenDairy = 0;
+        weeklyEatenVeggie = 0;
+        cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, selectString, args, null, null, null);
+        while(cursor.moveToNext()) {
+            String category = cursor.getString(
+                    cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY));
+            int amount = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT));
+            switch(category) {
+                case Constants.MEAT_CATEGORY:
+                    weeklyEatenMeat += amount;
+                    break;
+                case Constants.VEGGIE_CATEGORY:
+                    weeklyEatenVeggie += amount;
+                    break;
+                case Constants.FRUIT_CATEGORY:
+                    weeklyEatenFruit += amount;
+                    break;
+                case Constants.DAIRY_CATEGORY:
+                    weeklyEatenDairy += amount;
+                    break;
+            }
+        }
+
+        cursor.close();
     }
 }
