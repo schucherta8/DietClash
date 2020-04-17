@@ -6,20 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
+import com.diet.dietclash.FoodDB.FoodDungeonContract;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
 
 public class BossRoom extends AppCompatActivity {
 
-    ProgressBar monsterHealthBar;
+    private ProgressBar monsterHealthBar;
+    private TextView status;
+    private TextView progress;
+    private TextView total;
+
     private SQLiteDatabase db;
 
-    private int meatServingGoal;
-    private int fruitServingGoal;
-    private int dairyServingGoal;
-    private int veggieServingGoal;
+    private Monster monster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +30,25 @@ public class BossRoom extends AppCompatActivity {
         setContentView(R.layout.activity_boss_room);
 
         //readFoodServingGoals();
-        monsterHealthBar = findViewById(R.id.progressBar);
-        //setMonsterHealth();
+        monsterHealthBar = findViewById(R.id.monster_healthbar);
+        status = findViewById(R.id.monster_status);
+        progress = findViewById(R.id.monster_health_progress);
+        total = findViewById(R.id.monster_health_total);
+        //If monster is not defeated
+        if(false){
+            //monsterHealthBar.setProgress();//Calculate health remaining
+            monsterHealthBar.setMax(monster.getHealth());
+            status.setText(R.string.monster_dead);
+        } else{
+            monsterHealthBar.setMax(monster.getHealth());
+            status.setText(R.string.monster_alive);
+            //progress.setText();
+        }
     }
 
     /**
-     * Read in the user's serving goals for each food group.
-     * TODO: Make this on a new thread
+     * Read in the most recent monster added to the table.
+     *
      */
    void readFoodServingGoals(){
        //Access the database
@@ -41,48 +56,45 @@ public class BossRoom extends AppCompatActivity {
         db = helper.getReadableDatabase();
 
         //Values needed to create the query
-        String TABLE_NAME = FoodServingsContract.FoodServings.TABLE_NAME;
-        String[] COLUMNS = {FoodServingsContract.FoodServings._ID,
-                FoodServingsContract.FoodServings.COLUMN_NAME_MEAT,
-                FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT,
-                FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY,
-                FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE};
-        String SORT_ORDER = FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE + " DESC";
+        String TABLE_NAME = FoodDungeonContract.FoodDungeon.TABLE_NAME;
+        String[] COLUMNS = {FoodDungeonContract.FoodDungeon.COLUMN_NAME_MONSTER_TYPE,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_HEALTH,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_MEAT_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_FRUIT_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_DAIRY_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_DURATION,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED};
+        //Most recent Monster aka most recent start date or latest end date
+        String SORT_ORDER = FoodDungeonContract.FoodDungeon.COLUMN_NAME_DURATION + " DESC";
 
         //Query the table for the serving goal per food group.
         Cursor cursor = db.query(TABLE_NAME,COLUMNS,null,null,
                 null,null,SORT_ORDER);
 
-        //10 veggies 10 meats 10 dairy 10 fruit = 40 health -> easy(8 + 8+ 8+ 8) = 32 health, medium = 40 health, hard =  medium + 5 = 60 health
-
        //If there exist a record in the table. Get the all serving amounts per food group.
         if(cursor.moveToNext()){
-            meatServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+            int meatServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
                     FoodServingsContract.FoodServings.COLUMN_NAME_MEAT));
-            fruitServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+            int fruitServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
                     FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT));
-            dairyServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+            int dairyServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
                     FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY));
-            veggieServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+            int veggieServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
                     FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
+//            monster = new Monster(MONSTER_TYPE.EASY,meatServingGoal,
+//                    fruitServingGoal,dairyServingGoal,veggieServingGoal);
         }
         cursor.close();
     }
 
     /**
-     * Set the monster health bar to total servings from all the serving groups.
-     */
-    void setMonsterHealth(){
-        monsterHealthBar.setMax(meatServingGoal+fruitServingGoal+dairyServingGoal+veggieServingGoal);
-    }
-
-    /**
      * Update the monster health bar after each successful entry.
-     * TODO: Needs to be on a different thread
+     *
      * If the person eats more than the serving goal, dont lose any more health
      *
-     * TODO: NEEDS: UPDATE HEALTH BAR AFTER EVERY ENTRY SUCCESSFULLY ACCEPTED AND
-     * TODO: STORE THESE RESULTS SOMEWHERE
+     * TODO: UPDATE HEALTH BAR AFTER EVERY ENTRY SUCCESSFULLY ACCEPTED, MOVE TO LETS EAT?
+     *
      */
     void updateMonsterCurrentHealth(){
         String TABLE_NAME = FoodEntryContract.FoodEntry.TABLE_NAME;
@@ -96,15 +108,6 @@ public class BossRoom extends AppCompatActivity {
                 null,null,null,null,SORT_ORDER);
 
         cursor.close();
-    }
-
-    /**
-     * Checks if the monster has been defeated.
-     *
-     * @return the status of the monster
-     */
-    boolean isMonsterDefeated(){
-        return true;
     }
 
     //Reset monster? MIGHT BE HANDLED

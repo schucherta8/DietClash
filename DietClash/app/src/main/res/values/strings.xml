@@ -25,4 +25,9 @@
     <string name="daily_goal">Daily Goal</string>
     <string name="weekly_goal">Weekly Goal</string>
     <string name="ends">Ends</string>
+    <string name="monster_health_progress">0</string>
+    <string name="monster_health_total">100</string>
+    <string name="monster_alive">ALIVE</string>
+    <string name="monster_dead">DEAD</string>
+    <string name="monster_image_description">A monster</string>
 </resources>
