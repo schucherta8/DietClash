@@ -118,19 +118,19 @@ public class LetsEat extends AppCompatActivity {
     }
 
     private void updateDbMeat() {
-        String update = "Total: "+String.valueOf(dbMeatCount);
+        String update = "Daily Total: "+String.valueOf(dbMeatCount);
         dbMeatText.setText(update);
     }
     private void updateDbVeggie() {
-        String update = "Total: "+String.valueOf(dbVeggieCount);
+        String update = "Daily Total: "+String.valueOf(dbVeggieCount);
         dbVeggieText.setText(update);
     }
     private void updateDbFruit() {
-        String update = "Total: "+String.valueOf(dbFruitCount);
+        String update = "Daily Total: "+String.valueOf(dbFruitCount);
         dbFruitText.setText(update);
     }
     private void updateDbDairy() {
-        String update = "Total: "+String.valueOf(dbDairyCount);
+        String update = "Daily Total: "+String.valueOf(dbDairyCount);
         dbDairyText.setText(update);
     }
 
