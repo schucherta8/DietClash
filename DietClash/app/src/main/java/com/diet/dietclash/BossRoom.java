@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodDungeonContract;
-import com.diet.dietclash.FoodDB.FoodEntryContract;
-import com.diet.dietclash.FoodDB.FoodServingsContract;
 
 public class BossRoom extends AppCompatActivity {
 
@@ -28,22 +26,30 @@ public class BossRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boss_room);
+//        monsterHealthBar = findViewById(R.id.monster_healthbar);
+//        status = findViewById(R.id.monster_status);
+//        progress = findViewById(R.id.monster_health_progress);
+//        total = findViewById(R.id.monster_health_total);
 
-        //readFoodServingGoals();
-        monsterHealthBar = findViewById(R.id.monster_healthbar);
-        status = findViewById(R.id.monster_status);
-        progress = findViewById(R.id.monster_health_progress);
-        total = findViewById(R.id.monster_health_total);
-        //If monster is not defeated
-        if(false){
-            //monsterHealthBar.setProgress();//Calculate health remaining
-            monsterHealthBar.setMax(monster.getHealth());
-            status.setText(R.string.monster_dead);
-        } else{
-            monsterHealthBar.setMax(monster.getHealth());
-            status.setText(R.string.monster_alive);
-            //progress.setText();
-        }
+//        readFoodServingGoals();
+
+        //If there exist at least a monster
+//        if(monster != null){
+//            //Check for expiration
+//            if(!monster.isDefeated()){
+//                monsterHealthBar.setMax(monster.getHealth());
+//                monsterHealthBar.setProgress(monster.getHealth() - 10);
+//                progress.setText(monster.getHealth() - 10);
+//                total.setText(monster.getHealth());
+//                status.setText(R.string.monster_alive);
+//            } else{
+//                monsterHealthBar.setMax(monster.getHealth());
+//                monsterHealthBar.setProgress(monster.getHealth());
+//                progress.setText("0");
+//                total.setText(monster.getHealth());
+//                status.setText(R.string.monster_dead);
+//            }
+//        }
     }
 
     /**
@@ -58,15 +64,15 @@ public class BossRoom extends AppCompatActivity {
         //Values needed to create the query
         String TABLE_NAME = FoodDungeonContract.FoodDungeon.TABLE_NAME;
         String[] COLUMNS = {FoodDungeonContract.FoodDungeon.COLUMN_NAME_MONSTER_TYPE,
-                FoodDungeonContract.FoodDungeon.COLUMN_NAME_HEALTH,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_MAX_HEALTH,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_MEAT_SERVINGS,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_FRUIT_SERVINGS,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_DAIRY_SERVINGS,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS,
-                FoodDungeonContract.FoodDungeon.COLUMN_NAME_DURATION,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED};
-        //Most recent Monster aka most recent start date or latest end date
-        String SORT_ORDER = FoodDungeonContract.FoodDungeon.COLUMN_NAME_DURATION + " DESC";
+        //Most recent AbstractMonster aka most recent start date or latest end date
+        String SORT_ORDER = FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION+ " DESC";
 
         //Query the table for the serving goal per food group.
         Cursor cursor = db.query(TABLE_NAME,COLUMNS,null,null,
@@ -74,16 +80,25 @@ public class BossRoom extends AppCompatActivity {
 
        //If there exist a record in the table. Get the all serving amounts per food group.
         if(cursor.moveToNext()){
+            String monsterType = cursor.getString(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MONSTER_TYPE));
+            int maxHealth = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MAX_HEALTH));
             int meatServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
-                    FoodServingsContract.FoodServings.COLUMN_NAME_MEAT));
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MEAT_SERVINGS));
             int fruitServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
-                    FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT));
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_FRUIT_SERVINGS));
             int dairyServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
-                    FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY));
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_DAIRY_SERVINGS));
             int veggieServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
-                    FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
-//            monster = new Monster(MONSTER_TYPE.EASY,meatServingGoal,
-//                    fruitServingGoal,dairyServingGoal,veggieServingGoal);
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS));
+            String expiration = cursor.getString(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION));
+            int defeated = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED));
+            monster = MonsterFactory.generateMonster(MONSTER_TYPE.valueOf(monsterType),
+                    maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                    expiration,defeated == 1);
         }
         cursor.close();
     }
@@ -97,19 +112,6 @@ public class BossRoom extends AppCompatActivity {
      *
      */
     void updateMonsterCurrentHealth(){
-        String TABLE_NAME = FoodEntryContract.FoodEntry.TABLE_NAME;
-        String[] COLUMNS = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY,
-                FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
-        String SELECTION = FoodEntryContract.FoodEntry.COLUMN_NAME_DATE + " >= ?";
-        String[] SELECTION_ARGS = {};
-        String SORT_ORDER = FoodEntryContract.FoodEntry.TABLE_NAME + " DESC";
-        //Where the date is todays date
-        Cursor cursor = db.query(TABLE_NAME,COLUMNS,
-                null,null,null,null,SORT_ORDER);
 
-        cursor.close();
     }
-
-    //Reset monster? MIGHT BE HANDLED
-
 }

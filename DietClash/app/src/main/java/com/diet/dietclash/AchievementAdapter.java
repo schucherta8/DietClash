@@ -53,8 +53,7 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
         holder.achievementDescription.setText(achievementsList.get(position).getDescription());
         String displayPercentage = (int)achievementsList.get(position).getPercentage() + "%";
         holder.achievementProgress.setText(displayPercentage);
-        holder.achievementProgressBar.setProgress(achievementsList.get(position).getProgress(),
-                true);
+        holder.achievementProgressBar.setProgress(achievementsList.get(position).getProgress());
         holder.achievementProgressBar.setMax(achievementsList.get(position).getGoal());
     }
 

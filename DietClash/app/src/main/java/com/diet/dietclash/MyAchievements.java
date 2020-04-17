@@ -46,7 +46,6 @@ public class MyAchievements extends AppCompatActivity {
         //If no achievements exist in the database
         //Create and insert achievements
         if(achievements.isEmpty()){
-            System.out.println("Did we make into here?");
             achievements = createAchievements();
             insertAchievements();
         }
@@ -132,14 +131,14 @@ public class MyAchievements extends AppCompatActivity {
         List<Achievement> achievements = new ArrayList<>();
         achievements.add(new Achievement("FIRST BLOOD!",
                 "Defeat 1 monster.",0,1,false));
-        achievements.add(new Achievement("Monster Slayer!",
+        achievements.add(new Achievement("AbstractMonster Slayer!",
                 "Defeat 10 monsters.",0,10,false));
         achievements.add(new Achievement("The hero we need, but don't deserve!",
                 "Defeat 30 monsters.",0,30,false));
         achievements.add(new Achievement("Gotta start somewhere!",
                 "Complete a personal goal.",0,1,false));
         achievements.add(new Achievement("Slow and steady wins the race!",
-                "Complete four weekly goals.",0,15,false));
+                "Complete 4 weekly goals.",0,4,false));
         achievements.add(new Achievement("Look at me now!",
                 "Complete 12 weekly goals",0,12,false));
         achievements.add(new Achievement("Balance Diet!",
