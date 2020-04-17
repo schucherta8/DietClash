@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
@@ -54,6 +53,11 @@ public class LetsEat extends AppCompatActivity {
     //SQL Database
     private FoodDBHelper helper;
     private SQLiteDatabase db;
+
+    //Achievements for Food Consumption
+    private int startSomewhereGoal; //one personal goal
+    private int slowSteadyGoal; //four goals
+    private int lookAtMeNowGoal; //twelve goals
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,6 +284,9 @@ public class LetsEat extends AppCompatActivity {
         dbWeeklyDairyText.setText(update);
         update = "Weekly Total: "+String.valueOf(weeklyEatenVeggie);
         dbWeeklyVeggieText.setText(update);
+        //TODO NEED TO READ FROM GOALS and compare current progress on each weekly serving to each weekly goal.
+        //TODO if the WEEKLY servings are all accomplished, that is ONE goal for achievements. (IF x and y and z and w THEN)
+        //TODO we will need to update the achievements.
     }
 
     private void getWeeklyEatenQuantities(){
