@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
+import com.diet.dietclash.FoodDB.FoodServingsContract;
 import com.diet.dietclash.util.Constants;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -53,6 +54,12 @@ public class LetsEat extends AppCompatActivity {
     //SQL Database
     private FoodDBHelper helper;
     private SQLiteDatabase db;
+
+    //Weekly Servings Goals
+    private int weeklyMeatGoal;
+    private int weeklyFruitGoal;
+    private int weeklyDairyGoal;
+    private int weeklyVeggieGoal;
 
     //Achievements for Food Consumption
     private int startSomewhereGoal; //one personal goal
@@ -284,9 +291,46 @@ public class LetsEat extends AppCompatActivity {
         dbWeeklyDairyText.setText(update);
         update = "Weekly Total: "+String.valueOf(weeklyEatenVeggie);
         dbWeeklyVeggieText.setText(update);
-        //TODO NEED TO READ FROM GOALS and compare current progress on each weekly serving to each weekly goal.
+        getWeeklyFoodGoals();
         //TODO if the WEEKLY servings are all accomplished, that is ONE goal for achievements. (IF x and y and z and w THEN)
+        if((weeklyEatenMeat>weeklyMeatGoal)
+                        && (weeklyEatenFruit>weeklyFruitGoal)
+                        && (weeklyEatenDairy>weeklyDairyGoal)
+                        && (weeklyEatenVeggie>weeklyVeggieGoal)){
+            //Goal completed.
+        }
         //TODO we will need to update the achievements.
+
+    }
+
+    private void getWeeklyFoodGoals(){
+        String[] projection = {FoodServingsContract.FoodServings.COLUMN_NAME_MEAT,
+                FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT,
+                FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY,
+                FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE,
+                FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE};
+        //check for weekly goal
+        String[] args = new String[8]; //duration and 7 days
+        args[0] = "7";
+        String selectString = FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS+"=? AND (";
+        for(int i = 0; i < 7; ++i) {
+            args[i+1] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60)));
+            selectString = selectString + FoodServingsContract.FoodServings.COLUMN_NAME_START_DATE+"=?";
+            if(i == 6) {
+                selectString = selectString + ")";
+            } else {
+                selectString = selectString + " OR ";
+            }
+        }
+        Cursor cursor = db.query(FoodServingsContract.FoodServings.TABLE_NAME, projection, selectString, args, null, null, null, "1");
+        while(cursor.moveToNext()) {
+            weeklyMeatGoal = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_MEAT));
+            weeklyFruitGoal = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT));
+            weeklyDairyGoal = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY));
+            weeklyVeggieGoal = cursor.getInt(cursor.getColumnIndexOrThrow(FoodServingsContract.FoodServings.COLUMN_NAME_VEGGIE));
+        }
+
+        cursor.close();
     }
 
     private void getWeeklyEatenQuantities(){
@@ -303,10 +347,6 @@ public class LetsEat extends AppCompatActivity {
                 selectString = selectString + " OR ";
             }
         }
-        weeklyEatenMeat = 0;
-        weeklyEatenFruit = 0;
-        weeklyEatenDairy = 0;
-        weeklyEatenVeggie = 0;
         cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, selectString, args, null, null, null);
         while(cursor.moveToNext()) {
             String category = cursor.getString(
