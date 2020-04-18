@@ -60,7 +60,7 @@ public class Achievement {
     public double getPercentage() throws ArithmeticException, IllegalStateException {
         if(progress < 0){throw new IllegalStateException("Cannot be negative");}
         if(goal <= 0){throw new ArithmeticException("Cannot divide by zero");}
-        return (progress / goal) * 100;
+        return (progress * 100 / goal);
     }
 
 
