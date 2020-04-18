@@ -30,4 +30,5 @@
     <string name="monster_alive">ALIVE</string>
     <string name="monster_dead">DEAD</string>
     <string name="monster_image_description">A monster</string>
+    <string name="set_goal">Set Goal</string>
 </resources>
