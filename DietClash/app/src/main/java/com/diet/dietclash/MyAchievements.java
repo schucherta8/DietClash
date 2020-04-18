@@ -155,18 +155,40 @@ public class MyAchievements extends AppCompatActivity {
     }
 
     /**
-     * SELECT COUNT(id)
-     * FROM dungeon
-     * WHERE dungeon.defeated == 1
-     *
-     * Returns int?
+     * Updated Monster Kill Achievements
+     * 
      */
     private void updateMonsterAchievements(){
-        long count = DatabaseUtils.queryNumEntries(db,
+        //Get all monsters that were defeated
+        long monstersDefeated = DatabaseUtils.queryNumEntries(db,
                 FoodDungeonContract.FoodDungeon.TABLE_NAME,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED + "=1");
-        if(count < 30){
-            Achievement firstBlood = map.get("Defeat 1 monster.");
+
+        //Create a list of all Monster Kill Achievement
+        List<Achievement> list = new ArrayList<>();
+        list.add(map.get("FIRST BLOOD!"));
+        list.add(map.get("Monster Slayer!"));
+        list.add(map.get("The hero we need, but don't deserve!."));
+
+        //Update information needed to update achievement record
+        String TABLE_NAME = FoodAchievementsContract.FoodAchievements.TABLE_NAME;
+        String WHERE = FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE +"=";
+
+        //Update achievement records
+        for(Achievement achievement : list){
+            //Only update achievements if progress does not equal goal
+            if(achievement.getProgress() != achievement.getGoal()){
+                //If the monsters defeated is less than goal
+                if(monstersDefeated <= achievement.getGoal()){
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,monstersDefeated);
+                    db.update(TABLE_NAME,contentValues,WHERE+achievement.getTitle(),null);
+                } else{//Monsters defeated is greater than the goal
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,achievement.getGoal());
+                    db.update(TABLE_NAME,contentValues,WHERE+achievement.getTitle(),null);
+                }
+            }
         }
     }
 }
