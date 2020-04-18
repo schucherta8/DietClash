@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.diet.dietclash.FoodDB.FoodDBHelper;
+import com.diet.dietclash.FoodDB.FoodDungeonContract;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -298,11 +299,57 @@ public class GetStarted extends AppCompatActivity {
             values.put(FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS, duration);
             db.insert(FoodServingsContract.FoodServings.TABLE_NAME, null, values);
         }
-        //TODO: IF A WEEKLY GOAL WAS CREATED OR UPDATED, MAKE A MONSTER
         if (duration == 7){
+            //Create a set of Monsters to choose from
+            MONSTER_TYPE[] monsters = MONSTER_TYPE.values();
             //Generate a random monster
-//            Random r = new Random();
-//            r.nextInt(3);
+            Random r = new Random();
+            MONSTER_TYPE monsterType = monsters[r.nextInt(monsters.length)];
+            //Calculate date
+            int week = 1000 * 60 * 60 * 24 * 7;
+            String date = new SimpleDateFormat("yyyy-MM-dd")
+                    .format(new Date(System.currentTimeMillis() + week));
+            Monster monster = MonsterFactory.generateMonster(
+                    monsterType,myMeat+myFruit+myDairy+myVeggies,
+                    myMeat,myFruit,myDairy,myVeggies, date,false);
+
+            //Monster Information
+            ContentValues monsterContentValues = new ContentValues();
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MONSTER_TYPE,
+                    monster.getType().toString()
+            );
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MAX_HEALTH,
+                    monster.getHealth()
+            );
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MEAT_SERVINGS,
+                    monster.getMeatServings()
+            );
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_FRUIT_SERVINGS,
+                    monster.getFruitServings()
+            );
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_DAIRY_SERVINGS,
+                    monster.getDairyServings()
+            );
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS,
+                    monster.getVeggieServings()
+            );
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION,
+                    monster.getExpiration()
+            );
+            monsterContentValues.put(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED,
+                    Boolean.compare(monster.isDefeated(),false)
+            );
+            //Insert Monster record into Dungeon table
+            db.insert(FoodDungeonContract.FoodDungeon.TABLE_NAME,
+                    null,monsterContentValues);
         }
         //Display new results
         showServings();

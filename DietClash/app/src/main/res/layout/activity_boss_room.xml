@@ -6,30 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".BossRoom">
 
-    <TextView
-        android:id="@+id/monster_health_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/monster_health_total"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.596"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.382" />
-
-    <TextView
-        android:id="@+id/monster_health_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/monster_health_progress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.382" />
-
     <ProgressBar
         android:id="@+id/monster_healthbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
@@ -44,15 +20,14 @@
         android:progressTint="#A302FF27"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.377" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/monster_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="234dp"
+        android:layout_height="201dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/monster_image_description"
@@ -75,4 +50,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.747" />
+
+    <TextView
+        android:id="@+id/monster_health_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/monster_health_total"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.511" />
+
+    <TextView
+        android:id="@+id/monster_health_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/monster_health_progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

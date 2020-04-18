@@ -31,38 +31,38 @@ public class BossRoom extends AppCompatActivity {
         progress = findViewById(R.id.monster_health_progress);
         total = findViewById(R.id.monster_health_total);
 
-//        readDungeonGoals();
-//
-//        //If there exist at least a monster
-//        if(monster != null){
-//            //Check for expiration
-//            if(!monster.isDefeated()){
-//                monsterHealthBar.setMax(monster.getHealth());
-//                monsterHealthBar.setProgress(monster.getHealthRemainder());
-//                progress.setText(monster.getHealthRemainder());
-//                total.setText(monster.getHealth());
-//                status.setText(R.string.monster_alive);
-//            } else{
-//                monsterHealthBar.setMax(monster.getHealth());
-//                monsterHealthBar.setProgress(monster.getHealthRemainder());
-//                progress.setText(monster.getHealthRemainder());
-//                total.setText(monster.getHealth());
-//                status.setText(R.string.monster_dead);
-//            }
-//        } else {
-//            monsterHealthBar.setMax(0);
-//            monsterHealthBar.setProgress(0);
-//            progress.setText("?");
-//            total.setText("?");
-//            status.setText("No Monster Found");
-//        }
+        readMonsterFromDB();
+        //TODO:NEED PICTURE FOR 3 TYPES OF MONSTERS AND A QUESTION MARK IMAGE
+        //If there exist at least a monster
+        if(monster != null){
+            //Check for expiration
+            if(!monster.isDefeated()){
+                monsterHealthBar.setMax(monster.getHealth());
+                monsterHealthBar.setProgress(monster.getHealthRemainder());
+                progress.setText(String.valueOf(monster.getHealthRemainder()));
+                total.setText(String.valueOf(monster.getHealth()));
+                status.setText(R.string.monster_alive);
+            } else{
+                monsterHealthBar.setMax(monster.getHealth());
+                monsterHealthBar.setProgress(monster.getHealthRemainder());
+                progress.setText(String.valueOf(monster.getHealthRemainder()));
+                total.setText(String.valueOf(monster.getHealth()));
+                status.setText(R.string.monster_dead);
+            }
+        } else {
+            monsterHealthBar.setMax(0);
+            monsterHealthBar.setProgress(0);
+            progress.setText("");
+            total.setText("");
+            status.setText("There's nothing here.");
+        }
     }
 
     /**
      * Read in the most recent monster added to the table.
      *
      */
-   void readFoodServingGoals(){
+   void readMonsterFromDB(){
        //Access the database
         FoodDBHelper helper = new FoodDBHelper(getApplicationContext());
         db = helper.getReadableDatabase();

@@ -78,7 +78,6 @@ public class MyAchievements extends AppCompatActivity {
         List<Achievement> achievements = new ArrayList<>();
         map = new HashMap<>();
         while(cursor.moveToNext()){
-            System.out.println("Getting record from achievements...");
             String title = cursor.getString(
                     cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE));
             String description = cursor.getString(
@@ -165,7 +164,7 @@ public class MyAchievements extends AppCompatActivity {
 
         //Create a list of all Monster Kill Achievement
         List<Achievement> list = new ArrayList<>();
-        if(map != null){
+        if(!map.isEmpty()){
             list.add(map.get("FIRST BLOOD!"));
             list.add(map.get("Monster Slayer!"));
             list.add(map.get("The hero we need, but don't deserve!"));
