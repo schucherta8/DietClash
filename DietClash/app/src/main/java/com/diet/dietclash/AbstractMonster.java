@@ -22,6 +22,24 @@ public abstract class AbstractMonster implements Monster {
         this.defeated = defeated;
     }
 
+    @Override
+    public int getHealthRemainder() {
+        int remainderHealth = 0;
+        if(meatServings > 0){
+            remainderHealth += meatServings;
+        }
+        if(fruitServings > 0){
+            remainderHealth += fruitServings;
+        }
+        if(dairyServings > 0){
+            remainderHealth += dairyServings;
+        }
+        if(veggieServings > 0){
+            remainderHealth += veggieServings;
+        }
+        return remainderHealth;
+    }
+    
     public void setHealth(int health) {
         this.health = health;
     }

@@ -26,29 +26,35 @@ public class BossRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boss_room);
-//        monsterHealthBar = findViewById(R.id.monster_healthbar);
-//        status = findViewById(R.id.monster_status);
-//        progress = findViewById(R.id.monster_health_progress);
-//        total = findViewById(R.id.monster_health_total);
+        monsterHealthBar = findViewById(R.id.monster_healthbar);
+        status = findViewById(R.id.monster_status);
+        progress = findViewById(R.id.monster_health_progress);
+        total = findViewById(R.id.monster_health_total);
 
-//        readFoodServingGoals();
-
-        //If there exist at least a monster
+//        readDungeonGoals();
+//
+//        //If there exist at least a monster
 //        if(monster != null){
 //            //Check for expiration
 //            if(!monster.isDefeated()){
 //                monsterHealthBar.setMax(monster.getHealth());
-//                monsterHealthBar.setProgress(monster.getHealth() - 10);
-//                progress.setText(monster.getHealth() - 10);
+//                monsterHealthBar.setProgress(monster.getHealthRemainder());
+//                progress.setText(monster.getHealthRemainder());
 //                total.setText(monster.getHealth());
 //                status.setText(R.string.monster_alive);
 //            } else{
 //                monsterHealthBar.setMax(monster.getHealth());
-//                monsterHealthBar.setProgress(monster.getHealth());
-//                progress.setText("0");
+//                monsterHealthBar.setProgress(monster.getHealthRemainder());
+//                progress.setText(monster.getHealthRemainder());
 //                total.setText(monster.getHealth());
 //                status.setText(R.string.monster_dead);
 //            }
+//        } else {
+//            monsterHealthBar.setMax(0);
+//            monsterHealthBar.setProgress(0);
+//            progress.setText("?");
+//            total.setText("?");
+//            status.setText("No Monster Found");
 //        }
     }
 
@@ -103,15 +109,4 @@ public class BossRoom extends AppCompatActivity {
         cursor.close();
     }
 
-    /**
-     * Update the monster health bar after each successful entry.
-     *
-     * If the person eats more than the serving goal, dont lose any more health
-     *
-     * TODO: UPDATE HEALTH BAR AFTER EVERY ENTRY SUCCESSFULLY ACCEPTED, MOVE TO LETS EAT?
-     *
-     */
-    void updateMonsterCurrentHealth(){
-
-    }
 }

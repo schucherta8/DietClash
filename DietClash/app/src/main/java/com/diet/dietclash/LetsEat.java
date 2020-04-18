@@ -250,7 +250,8 @@ public class LetsEat extends AppCompatActivity {
             db.update(FoodEntryContract.FoodEntry.TABLE_NAME, values, FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY+"=? AND "
                     +FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", whereArgs);
         }
-
+        //TODO: UPDATE MONSTER HEALTH HERE, NEED TO KNOW IF A GOAL BEEN SET
+        //Check first monster record. If expired....do no updates. Else Update monster health
         resetInput();
         refreshAll();
         cancelNotification();
