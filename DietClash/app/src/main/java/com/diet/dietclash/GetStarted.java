@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class GetStarted extends AppCompatActivity {
 
@@ -297,7 +298,12 @@ public class GetStarted extends AppCompatActivity {
             values.put(FoodServingsContract.FoodServings.COLUMN_NAME_DURATION_DAYS, duration);
             db.insert(FoodServingsContract.FoodServings.TABLE_NAME, null, values);
         }
-
+        //TODO: IF A WEEKLY GOAL WAS CREATED OR UPDATED, MAKE A MONSTER
+        if (duration == 7){
+            //Generate a random monster
+//            Random r = new Random();
+//            r.nextInt(3);
+        }
         //Display new results
         showServings();
 

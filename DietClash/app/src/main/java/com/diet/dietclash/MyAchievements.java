@@ -129,8 +129,7 @@ public class MyAchievements extends AppCompatActivity {
 
     /**
      * Create the achievements for the database.
-     * TODO: FIND A WAY TO TELL IF SOMEONE DEFEATED A MONSTER
-     * TODO: FIND A WAY TO TELL IF SOMEONE COMPLETED THEIR GOAL
+     * 
      *
      * @return an achievement list
      */
@@ -166,13 +165,15 @@ public class MyAchievements extends AppCompatActivity {
 
         //Create a list of all Monster Kill Achievement
         List<Achievement> list = new ArrayList<>();
-        list.add(map.get("FIRST BLOOD!"));
-        list.add(map.get("Monster Slayer!"));
-        list.add(map.get("The hero we need, but don't deserve!."));
+        if(map != null){
+            list.add(map.get("FIRST BLOOD!"));
+            list.add(map.get("Monster Slayer!"));
+            list.add(map.get("The hero we need, but don't deserve!"));
+        }
 
         //Update information needed to update achievement record
         String TABLE_NAME = FoodAchievementsContract.FoodAchievements.TABLE_NAME;
-        String WHERE = FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE +"=";
+        String WHERE = FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE +"=?";
 
         //Update achievement records
         for(Achievement achievement : list){
@@ -182,7 +183,7 @@ public class MyAchievements extends AppCompatActivity {
                 if(monstersDefeated <= achievement.getGoal()){
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,monstersDefeated);
-                    db.update(TABLE_NAME,contentValues,WHERE+achievement.getTitle(),null);
+                    db.update(TABLE_NAME,contentValues,WHERE,new String[]{achievement.getTitle()});
                 } else{//Monsters defeated is greater than the goal
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,achievement.getGoal());
