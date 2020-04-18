@@ -102,9 +102,20 @@ public class BossRoom extends AppCompatActivity {
                     FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION));
             int defeated = cursor.getInt(cursor.getColumnIndexOrThrow(
                     FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED));
-            monster = MonsterFactory.generateMonster(MONSTER_TYPE.valueOf(monsterType),
-                    maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
-                    expiration,defeated == 1);
+            switch (MONSTER_TYPE.valueOf(monsterType)){
+                case EASY:
+                    monster = new EasyMonster(MONSTER_TYPE.valueOf(monsterType),
+                            maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                            expiration,defeated == 1);
+                case MEDIUM:
+                    monster = new MediumMonster(MONSTER_TYPE.valueOf(monsterType),
+                            maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                            expiration,defeated == 1);
+                case HARD:
+                    monster = new HardMonster(MONSTER_TYPE.valueOf(monsterType),
+                            maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                            expiration,defeated == 1);
+            }
         }
         cursor.close();
     }
