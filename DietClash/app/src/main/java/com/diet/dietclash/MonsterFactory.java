@@ -8,13 +8,13 @@ public class MonsterFactory {
         switch (type){
             case EASY:
                 return new EasyMonster(type,health,meatServings,fruitServings,
-                        dairyServings,veggieServings,expiration,defeated);
+                        dairyServings,veggieServings,expiration,defeated,1);
             case MEDIUM:
                 return new MediumMonster(type,health,meatServings,fruitServings,
-                        dairyServings,veggieServings,expiration,defeated);
+                        dairyServings,veggieServings,expiration,defeated,3);
             case HARD:
                 return new HardMonster(type,health,meatServings,fruitServings,
-                        dairyServings,veggieServings,expiration,defeated);
+                        dairyServings,veggieServings,expiration,defeated,5);
                 default:
                     return null;
         }

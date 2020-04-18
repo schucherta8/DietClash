@@ -15,11 +15,13 @@ import android.widget.TextView;
 
 import com.diet.dietclash.FoodDB.FoodAchievementsContract;
 import com.diet.dietclash.FoodDB.FoodDBHelper;
+import com.diet.dietclash.FoodDB.FoodDungeonContract;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
 import com.diet.dietclash.util.Constants;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -492,14 +494,95 @@ public class LetsEat extends AppCompatActivity {
     }
 
     /**
-     * TODO:UPDATE MONSTER HEALTH
-     * Get the monster recently added.
-     * -Either by date or possibly by id?
-     * Simply check if the monster is expired
-     * -Done by checking if the expired date is behind current date
-     * If not expired, update monster
+     * Update the monsters health
+     * TODO: NOT WORKING
      */
-    private void updateMonsterHealth(){
+    private void updateMonsterHealth() {
+        //Values needed to create the query
+        String TABLE_NAME = FoodDungeonContract.FoodDungeon.TABLE_NAME;
+        String[] COLUMNS = {FoodDungeonContract.FoodDungeon.COLUMN_NAME_MONSTER_TYPE,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_MAX_HEALTH,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_MEAT_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_FRUIT_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_DAIRY_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION,
+                FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED};
 
+        //Most recent Monster
+        String SORT_ORDER = FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION+ " DESC";
+
+        //Query the table for the serving goal per food group.
+        Cursor cursor = db.query(TABLE_NAME,COLUMNS,null,null,
+                null,null,SORT_ORDER,"1");
+        Monster monster = null;
+        if (cursor.moveToNext()){
+            String monsterType = cursor.getString(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MONSTER_TYPE));
+            int maxHealth = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MAX_HEALTH));
+            int meatServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_MEAT_SERVINGS));
+            int fruitServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_FRUIT_SERVINGS));
+            int dairyServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_DAIRY_SERVINGS));
+            int veggieServingGoal = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS));
+            String expiration = cursor.getString(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION));
+            int defeated = cursor.getInt(cursor.getColumnIndexOrThrow(
+                    FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED));
+            monster = MonsterFactory.generateMonster(MONSTER_TYPE.valueOf(monsterType),
+                    maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                    expiration,defeated == 1);
+        }
+        if(monster != null){
+            //Check expiration
+            String expiredDate =  monster.getExpiration();
+            String todayDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(new Date(System.currentTimeMillis()));
+            try{
+                Date expiration = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(expiredDate);
+                Date today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(todayDate);
+                boolean isExpired = today.before(expiration);
+                if(!isExpired){
+                    //Subtract entry from monster total servings
+                    monster.setMeatServings(monster.getMeatServings() - meatCount);
+                    monster.setFruitServings(monster.getFruitServings() - fruitCount);
+                    monster.setDairyServings(monster.getDairyServings() - dairyCount);
+                    monster.setVeggieServings(monster.getVeggieServings() - veggieCount);
+                    //If monster is killed, set defeated to true
+                    if(monster.getHealthRemainder() <= 0){
+                        monster.setDefeated(true);
+                    }
+
+                    //Update record in database
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(
+                            FoodDungeonContract.FoodDungeon.COLUMN_NAME_MEAT_SERVINGS,
+                            monster.getMeatServings()
+                    );
+                    contentValues.put(
+                            FoodDungeonContract.FoodDungeon.COLUMN_NAME_FRUIT_SERVINGS,
+                            monster.getFruitServings()
+                    );
+                    contentValues.put(
+                            FoodDungeonContract.FoodDungeon.COLUMN_NAME_DAIRY_SERVINGS,
+                            monster.getDairyServings()
+                    );
+                    contentValues.put(
+                            FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS,
+                            monster.getVeggieServings()
+                    );
+                    String WHERE = FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION+"=?";
+                    db.update(TABLE_NAME,contentValues,WHERE,new String[]{expiredDate});
+                }
+
+            } catch (ParseException e){
+                e.printStackTrace();
+            }
+        }
+        cursor.close();
     }
 }

@@ -11,13 +11,26 @@ public abstract class AbstractMonster implements Monster {
     protected boolean defeated;
 
     protected AbstractMonster(MONSTER_TYPE type, int health, int meatServings,int fruitServings,
-                           int dairyServings, int veggieServings, String expiration, boolean defeated){
+                              int dairyServings, int veggieServings, String expiration, boolean defeated){
         this.type = type;
         this.health = health;
         this.meatServings = meatServings;
         this.fruitServings = fruitServings;
         this.dairyServings = dairyServings;
         this.veggieServings = veggieServings;
+        this.expiration = expiration;
+        this.defeated = defeated;
+    }
+
+    protected AbstractMonster(MONSTER_TYPE type, int health, int meatServings,int fruitServings,
+                           int dairyServings, int veggieServings, String expiration, boolean defeated,
+                            int multiplier){
+        this.type = type;
+        this.health = health + (4 * multiplier);
+        this.meatServings = meatServings + multiplier;
+        this.fruitServings = fruitServings + multiplier;
+        this.dairyServings = dairyServings + multiplier;
+        this.veggieServings = veggieServings + multiplier;
         this.expiration = expiration;
         this.defeated = defeated;
     }

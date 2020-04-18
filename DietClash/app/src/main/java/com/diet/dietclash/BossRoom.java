@@ -77,8 +77,8 @@ public class BossRoom extends AppCompatActivity {
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED};
-        //Most recent AbstractMonster aka most recent start date or latest end date
-       //TODO: NOT SORTING BY DATE CORRECTLY
+
+        //Most recent Monster
         String SORT_ORDER = FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION+ " DESC";
 
         //Query the table for the serving goal per food group.

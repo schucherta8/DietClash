@@ -307,7 +307,7 @@ public class GetStarted extends AppCompatActivity {
             MONSTER_TYPE monsterType = monsters[r.nextInt(monsters.length)];
             //Calculate date
             int week = 1000 * 60 * 60 * 24 * 7;
-            String date = new SimpleDateFormat("yyyy-MM-dd")
+            String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                     .format(new Date(System.currentTimeMillis() + week));
             Monster monster = MonsterFactory.generateMonster(
                     monsterType,myMeat+myFruit+myDairy+myVeggies,
