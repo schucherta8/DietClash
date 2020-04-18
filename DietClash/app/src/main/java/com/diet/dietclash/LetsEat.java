@@ -377,7 +377,6 @@ public class LetsEat extends AppCompatActivity {
     private void getWeeklyEatenQuantities(){
         String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
         String[] args = {new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
-        Cursor cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", args, null, null, null);
 
         args = new String[7]; //duration and 7 days
         String selectString = "";
@@ -388,7 +387,8 @@ public class LetsEat extends AppCompatActivity {
                 selectString = selectString + " OR ";
             }
         }
-        cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, selectString, args, null, null, null);
+        weeklyEatenMeat = weeklyEatenVeggie = weeklyEatenFruit = weeklyEatenDairy = 0;
+        Cursor cursor = db.query(FoodEntryContract.FoodEntry.TABLE_NAME, projection, selectString, args, null, null, null);
         while(cursor.moveToNext()) {
             String category = cursor.getString(
                     cursor.getColumnIndexOrThrow(FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY));
