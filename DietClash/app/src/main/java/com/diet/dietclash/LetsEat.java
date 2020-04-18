@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.diet.dietclash.FoodDB.FoodAchievementsContract;
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
 import com.diet.dietclash.FoodDB.FoodServingsContract;
@@ -68,7 +69,9 @@ public class LetsEat extends AppCompatActivity {
     //Achievements for Food Consumption
     private int startSomewhereGoal; //one personal goal
     private int slowSteadyGoal; //four goals
-    private int lookAtMeNowGoal; //twelve goals
+
+    private int startSomewhereProgress;
+    private int slowSteadyProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +166,16 @@ public class LetsEat extends AppCompatActivity {
     private void updateDbDairy() {
         String update = "Daily Total: "+String.valueOf(dbDairyCount);
         dbDairyText.setText(update);
+    }
+    private void updateWeeklyTotal(){
+        String update = "Weekly Total: "+String.valueOf(weeklyEatenMeat);
+        dbWeeklyMeatText.setText(update);
+        update = "Weekly Total: "+String.valueOf(weeklyEatenFruit);
+        dbWeeklyFruitText.setText(update);
+        update = "Weekly Total: "+String.valueOf(weeklyEatenDairy);
+        dbWeeklyDairyText.setText(update);
+        update = "Weekly Total: "+String.valueOf(weeklyEatenVeggie);
+        dbWeeklyVeggieText.setText(update);
     }
 
     public void AddMeat(View view) {
@@ -297,25 +310,32 @@ public class LetsEat extends AppCompatActivity {
 
     private void checkAchievements(){
         //find our weekly progress for food eaten
-        getWeeklyEatenQuantities();
-        String update = "Weekly Total: "+String.valueOf(weeklyEatenMeat);
-        dbWeeklyMeatText.setText(update);
-        update = "Weekly Total: "+String.valueOf(weeklyEatenFruit);
-        dbWeeklyFruitText.setText(update);
-        update = "Weekly Total: "+String.valueOf(weeklyEatenDairy);
-        dbWeeklyDairyText.setText(update);
-        update = "Weekly Total: "+String.valueOf(weeklyEatenVeggie);
-        dbWeeklyVeggieText.setText(update);
-        getWeeklyFoodGoals();
-        //TODO if the WEEKLY servings are all accomplished, that is ONE goal for achievements. (IF x and y and z and w THEN)
-        if((weeklyEatenMeat>weeklyMeatGoal)
-                        && (weeklyEatenFruit>weeklyFruitGoal)
-                        && (weeklyEatenDairy>weeklyDairyGoal)
-                        && (weeklyEatenVeggie>weeklyVeggieGoal)){
-            //Goal completed.
-        }
+        getWeeklyEatenQuantities(); //collect weekly consumption from db
+        getWeeklyFoodGoals(); //collect weekly goals from db
+        getFoodAchievements(); //collect the achievements from the db
+        updateWeeklyTotal(); //update the weekly consumption view
+        //look at progress for first and second achievements
+        assessAchievement(weeklyEatenMeat,weeklyEatenFruit,weeklyEatenDairy,weeklyEatenVeggie,
+                weeklyMeatGoal,weeklyFruitGoal,weeklyDairyGoal,weeklyVeggieGoal);
         //TODO we will need to update the achievements.
 
+    }
+
+    private void assessAchievement(int eMeat, int eFruit, int eDairy, int eVeggie, int gMeat, int gFruit, int gDairy, int gVeggie){
+        //TODO FIRST ACHIEVEMENT (one serving of the four)
+        if((eMeat>gMeat)
+                || (eFruit>gFruit)
+                || (eDairy>gDairy)
+                || (eVeggie>gVeggie)){
+            //Goal complete for at least one serving.
+        }
+        //TODO SECOND ACHIEVEMENT (all four)
+        if((eMeat>gMeat)
+                && (eFruit>gFruit)
+                && (eDairy>gDairy)
+                && (eVeggie>gVeggie)){
+            //Goal complete for 4 servings.
+        }
     }
 
     private void getWeeklyFoodGoals(){
@@ -384,6 +404,57 @@ public class LetsEat extends AppCompatActivity {
             }
         }
 
+        cursor.close();
+    }
+
+    private void getFoodAchievements(){
+        /**
+         * Representation of Achievement Table:
+         * ------------------------------------------------------------------------------------------------------
+         * |achievement_title              |achievement_description      |achievement_progress|achievement_goal|achievement_complete|
+         * ------------------------------------------------------------------------------------------------------------------------
+         * "Gotta start somewhere!"        | "Complete a personal goal." |       0           |    1            |              false|
+         * ------------------------------------------------------------------------------------------------------------------------
+         * "Slow and steady wins the race!" | Complete 4 weekly goals."   |       0           |   4            |              false|
+         * ------------------------------------------------------------------------------------------------------------------------
+         * "Look at me now!"               |"Complete 12 weekly goals"   |       0          |   12            |              false|
+         * ------------------------------------------------------------------------------------------------------------------------
+         */
+        String[] projection = {
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL};
+        //Collect the first achievement goal and progress
+        String[] args = {"Gotta start somewhere!"};
+        //SELECT achievement_progress, achievement_goal FROM achievements
+        //WHERE achievement_title = 'Gotta start somewhere!';
+        Cursor cursor = db.query(
+                FoodAchievementsContract.FoodAchievements.TABLE_NAME,
+                projection,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
+                args, null, null, null);
+        while(cursor.moveToNext()) {
+            startSomewhereProgress = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS));
+            startSomewhereGoal = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL));
+
+            }
+        //Collect the second achievement goal and progress
+        String[] args2 = {"Slow and steady wins the race!"};
+        //SELECT achievement_progress, achievement_goal FROM achievements
+        //WHERE achievement_title = 'Slow and steady wins the race!';
+        cursor = db.query(
+                FoodAchievementsContract.FoodAchievements.TABLE_NAME,
+                projection,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
+                args, null, null, null);
+        while(cursor.moveToNext()) {
+            slowSteadyProgress = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS));
+            slowSteadyGoal = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL));
+
+        }
         cursor.close();
     }
 }
