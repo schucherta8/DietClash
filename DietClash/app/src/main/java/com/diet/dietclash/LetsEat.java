@@ -68,12 +68,9 @@ public class LetsEat extends AppCompatActivity {
     private int weeklyDairyGoal;
     private int weeklyVeggieGoal;
 
-    //Achievements for Food Consumption
-    private int startSomewhereGoal; //one personal goal
-    private int slowSteadyGoal; //four goals
-
     private int startSomewhereProgress;
     private int slowSteadyProgress;
+    private int lookProgress;
 
     private boolean goalMetAtStart;
 
@@ -346,6 +343,7 @@ public class LetsEat extends AppCompatActivity {
             //we've set a new goal - increment!
             ++startSomewhereProgress;
             ++slowSteadyProgress;
+            ++lookProgress;
             updateAchievementProgress();
         }
     }
@@ -435,11 +433,10 @@ public class LetsEat extends AppCompatActivity {
          * ------------------------------------------------------------------------------------------------------------------------
          */
         String[] projection = {
-                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,
-                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL};
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS};
         //Collect the first achievement goal and progress
         String[] args = {"Gotta start somewhere!"};
-        //SELECT achievement_progress, achievement_goal FROM achievements
+        //SELECT achievement_progress FROM achievements
         //WHERE achievement_title = 'Gotta start somewhere!';
         Cursor cursor = db.query(
                 FoodAchievementsContract.FoodAchievements.TABLE_NAME,
@@ -449,13 +446,11 @@ public class LetsEat extends AppCompatActivity {
         while(cursor.moveToNext()) {
             startSomewhereProgress = cursor.getInt(
                     cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS));
-            startSomewhereGoal = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL));
 
             }
         //Collect the second achievement goal and progress
         String[] args2 = {"Slow and steady wins the race!"};
-        //SELECT achievement_progress, achievement_goal FROM achievements
+        //SELECT achievement_progress FROM achievements
         //WHERE achievement_title = 'Slow and steady wins the race!';
         cursor = db.query(
                 FoodAchievementsContract.FoodAchievements.TABLE_NAME,
@@ -465,10 +460,23 @@ public class LetsEat extends AppCompatActivity {
         while(cursor.moveToNext()) {
             slowSteadyProgress = cursor.getInt(
                     cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS));
-            slowSteadyGoal = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL));
 
         }
+
+        String[] args3 = {"Look at me now!"};
+        //SELECT achievement_progress FROM achievements
+        //WHERE achievement_title = 'Look at me now!';
+        cursor = db.query(
+                FoodAchievementsContract.FoodAchievements.TABLE_NAME,
+                projection,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
+                args3, null, null, null);
+        while(cursor.moveToNext()) {
+            lookProgress = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS));
+
+        }
+
         cursor.close();
     }
 
@@ -498,6 +506,19 @@ public class LetsEat extends AppCompatActivity {
                 value,
                 FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
                 args2);
+
+        //Update the third achievement goal progress.
+        value = new ContentValues();
+        value.put(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS, lookProgress);
+        String[] args3 = {"Look at me now!"};
+        //UPDATE achievements
+        //SET achievement_progress = progress
+        //WHERE achievement_title = 'Look at me now!';
+        db.update(
+                FoodAchievementsContract.FoodAchievements.TABLE_NAME,
+                value,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
+                args3);
     }
 
     /**
