@@ -474,7 +474,7 @@ public class LetsEat extends AppCompatActivity {
         db.update(
                 FoodAchievementsContract.FoodAchievements.TABLE_NAME,
                 value,
-                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS+"=?",
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
                 args);
 
         //Update the second achievement goal progress.
@@ -487,7 +487,7 @@ public class LetsEat extends AppCompatActivity {
         db.update(
                 FoodAchievementsContract.FoodAchievements.TABLE_NAME,
                 value,
-                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS+"=?",
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
                 args2);
     }
 
