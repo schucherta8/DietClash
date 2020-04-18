@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
     <TableLayout
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TableRow
@@ -18,18 +19,19 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="5dp"
             android:gravity="center"
-            android:padding="30dp">
+            android:padding="0dp">
 
             <Button
                 android:id="@+id/achievements"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="#D4AF37"
+                android:background="#009688"
                 android:onClick="myAchievements"
                 android:paddingHorizontal="20dp"
-                android:text="@string/my_achievements" />
+                android:text="@string/my_achievements"
+                android:textColor="#FAFAFA" />
         </TableRow>
 
         <TableRow
@@ -38,18 +40,19 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="5dp"
             android:gravity="center"
-            android:padding="20dp">
+            android:padding="0dp">
 
             <Button
                 android:id="@+id/letsEatButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="#FFE632"
+                android:background="#FFC107"
                 android:onClick="letsEat"
                 android:paddingHorizontal="20dp"
-                android:text="@string/let_s_eat" />
+                android:text="@string/let_s_eat"
+                android:textColor="#FAFAFA" />
 
         </TableRow>
 
@@ -59,28 +62,19 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="5dp"
             android:gravity="center"
-            android:padding="20dp">
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="5dp"
-            android:gravity="center"
-            android:padding="20dp">
+            android:padding="0dp">
 
             <Button
                 android:id="@+id/myProgressButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="#F5DCDC"
+                android:background="#14C8C8"
                 android:onClick="myProgress"
                 android:paddingHorizontal="20dp"
-                android:text="@string/my_progress" />
+                android:text="@string/my_progress"
+                android:textColor="#FAFAFA" />
 
         </TableRow>
 
@@ -91,18 +85,19 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="5dp"
             android:gravity="center"
-            android:padding="20dp">
+            android:padding="0dp">
 
             <Button
                 android:id="@+id/storesNearMeButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="#FF9800"
                 android:onClick="storesNearMe"
                 android:paddingHorizontal="20dp"
-                android:text="@string/stores_near_me" />
+                android:text="@string/stores_near_me"
+                android:textColor="#FAFAFA" />
         </TableRow>
 
         <TableRow
@@ -111,39 +106,43 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="5dp"
             android:gravity="center"
-            android:padding="20dp">
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="5dp"
-            android:gravity="center"
-            android:padding="20dp">
+            android:padding="0dp">
 
             <Button
                 android:id="@+id/getStartedButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="#4CAF50"
+                android:background="#8BC34A"
                 android:onClick="getStarted"
                 android:paddingHorizontal="20dp"
-                android:text="@string/get_started" />
+                android:text="@string/set_goal"
+                android:textColor="#FAFAFA" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:gravity="center"
+            android:padding="0dp">
 
             <Button
                 android:id="@+id/bossRoomButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="#E91E63"
                 android:onClick="bossRoom"
                 android:paddingHorizontal="20dp"
-                android:text="@string/boss_room" />
+                android:text="@string/boss_room"
+                android:textColor="#FAFAFA" />
+
+
         </TableRow>
 
     </TableLayout>
