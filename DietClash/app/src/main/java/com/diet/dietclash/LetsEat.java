@@ -331,13 +331,15 @@ public class LetsEat extends AppCompatActivity {
 
         if(goalCount>=slowSteadyGoal){
             slowSteadyProgress = 100;
+        } else{
+            slowSteadyProgress=(goalCount * 100 /slowSteadyGoal);
         }
 
         if(goalCount>=startSomewhereGoal){
             startSomewhereProgress = 100;
         }
         else{
-            startSomewhereProgress=(goalCount/startSomewhereGoal)*100;
+            startSomewhereProgress=(goalCount * 100 /startSomewhereGoal);
         }
     }
 
@@ -450,7 +452,7 @@ public class LetsEat extends AppCompatActivity {
                 FoodAchievementsContract.FoodAchievements.TABLE_NAME,
                 projection,
                 FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE+"=?",
-                args, null, null, null);
+                args2, null, null, null);
         while(cursor.moveToNext()) {
             slowSteadyProgress = cursor.getInt(
                     cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS));
