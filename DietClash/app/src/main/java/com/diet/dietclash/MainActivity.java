@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,12 +19,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.diet.dietclash.FoodDB.FoodAchievementsContract;
 import com.diet.dietclash.FoodDB.FoodDBHelper;
 import com.diet.dietclash.FoodDB.FoodEntryContract;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
         //db
         helper = new FoodDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
+
+        List<Achievement> achievements = getAchievementsFromDatabase();
+        if(achievements.isEmpty()){
+            achievements = createAchievements();
+            insertAchievements(achievements);
+        }
 
         if(!foodEaten()) {
             createNotificationChannel();
@@ -172,5 +183,93 @@ public class MainActivity extends AppCompatActivity {
     public void bossRoom(View view) {
         Intent i = new Intent(this, BossRoom.class);
         startActivity(i);
+    }
+
+    /**
+     * Get the achievements that are stored in the database.
+     *
+     * @return an achievement list if it exist in the database, else null
+     */
+    private List<Achievement> getAchievementsFromDatabase(){
+        //Return all columns
+        String TABLE_NAME = FoodAchievementsContract.FoodAchievements.TABLE_NAME;
+        String[] COLUMNS = {FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_DESCRIPTION,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_COMPLETED};
+        Cursor cursor = db.query(TABLE_NAME,COLUMNS,null,null,
+                null,null,null);
+
+        //Populate our achievement list from database
+        List<Achievement> achievements = new ArrayList<>();
+        while(cursor.moveToNext()){
+            String title = cursor.getString(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE));
+            String description = cursor.getString(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_DESCRIPTION));
+            int progress = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS));
+            int goal = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL));
+            int completed = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_COMPLETED));
+            achievements.add(new Achievement(title,description,progress,goal,completed == 1));
+        }
+        cursor.close();
+        return achievements;
+    }
+    /**
+     * Insert our achievements into the database.
+     */
+    private void insertAchievements(List<Achievement> achievements){
+        for (Achievement achievement : achievements){
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(
+                    FoodAchievementsContract.FoodAchievements.COLUMN_NAME_TITLE,
+                    achievement.getTitle()
+            );
+            contentValues.put(
+                    FoodAchievementsContract.FoodAchievements.COLUMN_NAME_DESCRIPTION,
+                    achievement.getDescription()
+            );
+            contentValues.put(
+                    FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS,
+                    achievement.getProgress()
+            );
+            contentValues.put(
+                    FoodAchievementsContract.FoodAchievements.COLUMN_NAME_GOAL,
+                    achievement.getGoal()
+            );
+            contentValues.put(
+                    FoodAchievementsContract.FoodAchievements.COLUMN_NAME_COMPLETED,
+                    achievement.getIsCompleted()
+            );
+            db.insert(FoodAchievementsContract.FoodAchievements.TABLE_NAME,
+                    null,contentValues);
+        }
+    }
+
+    /**
+     * Create the achievements for the database.
+     *
+     *
+     * @return an achievement list
+     */
+    private List<Achievement> createAchievements(){
+        List<Achievement> achievements = new ArrayList<>();
+        achievements.add(new Achievement("FIRST BLOOD!",
+                "Defeat 1 monster.",0,1,false));
+        achievements.add(new Achievement("Monster Slayer!",
+                "Defeat 10 monsters.",0,10,false));
+        achievements.add(new Achievement("The hero we need, but don't deserve!",
+                "Defeat 30 monsters.",0,30,false));
+        achievements.add(new Achievement("Gotta start somewhere!",
+                "Complete a personal goal.",0,1,false));
+        achievements.add(new Achievement("Slow and steady wins the race!",
+                "Complete 4 weekly goals.",0,4,false));
+        achievements.add(new Achievement("Look at me now!",
+                "Complete 12 weekly goals",0,12,false));
+        return achievements;
     }
 }

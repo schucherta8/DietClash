@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ public class BossRoom extends AppCompatActivity {
     private TextView status;
     private TextView progress;
     private TextView total;
+    private ImageView imageView;
 
     private SQLiteDatabase db;
 
@@ -30,10 +32,20 @@ public class BossRoom extends AppCompatActivity {
         status = findViewById(R.id.monster_status);
         progress = findViewById(R.id.monster_health_progress);
         total = findViewById(R.id.monster_health_total);
-
+        imageView = findViewById(R.id.monster_picture);
         readMonsterFromDB();
         //If there exist at least a monster
         if(monster != null){
+            switch (monster.getType()){
+                case EASY:
+                    imageView.setImageResource(R.drawable.bad_egg);
+                    break;
+                case MEDIUM:
+                    imageView.setImageResource(R.drawable.bad_apple);
+                    break;
+                case HARD:
+                    imageView.setImageResource(R.drawable.bad_cabbage);
+            }
             //Check for expiration
             if(!monster.isDefeated()){
                 monsterHealthBar.setMax(monster.getHealth());
@@ -54,6 +66,7 @@ public class BossRoom extends AppCompatActivity {
             progress.setText("");
             total.setText("");
             status.setText("I wonder what this place is.");
+            imageView.setImageResource(R.drawable.question);
         }
     }
 
