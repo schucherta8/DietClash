@@ -463,6 +463,30 @@ public class LetsEat extends AppCompatActivity {
     }
 
     private void updateAchievementProgress(){
-        //TODO
+        //Update the first achievement goal progress.
+        ContentValues value = new ContentValues();
+        value.put(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS, startSomewhereProgress);
+        String[] args = {"Gotta start somewhere!"};
+        //UPDATE achievements
+        //SET achievement_progress = progress
+        //WHERE achievement_title = 'Gotta start somewhere!';
+        db.update(
+                FoodAchievementsContract.FoodAchievements.TABLE_NAME,
+                value,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS+"=?",
+                args);
+
+        //Update the second achievement goal progress.
+        value = new ContentValues();
+        value.put(FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS, slowSteadyProgress);
+        String[] args2 = {"Slow and steady wins the race!"};
+        //UPDATE achievements
+        //SET achievement_progress = progress
+        //WHERE achievement_title = 'Slow and steady wins the race!';
+        db.update(
+                FoodAchievementsContract.FoodAchievements.TABLE_NAME,
+                value,
+                FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS+"=?",
+                args2);
     }
 }
