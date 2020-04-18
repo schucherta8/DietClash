@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         achievements.add(new Achievement("The hero we need, but don't deserve!",
                 "Defeat 30 monsters.",0,30,false));
         achievements.add(new Achievement("Gotta start somewhere!",
-                "Complete a personal goal.",0,1,false));
+                "Complete a weekly goal.",0,1,false));
         achievements.add(new Achievement("Slow and steady wins the race!",
                 "Complete 4 weekly goals.",0,4,false));
         achievements.add(new Achievement("Look at me now!",

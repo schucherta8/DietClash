@@ -425,7 +425,7 @@ public class LetsEat extends AppCompatActivity {
          * ------------------------------------------------------------------------------------------------------
          * |achievement_title              |achievement_description      |achievement_progress|achievement_goal|achievement_complete|
          * ------------------------------------------------------------------------------------------------------------------------
-         * "Gotta start somewhere!"        | "Complete a personal goal." |       0           |    1            |              false|
+         * "Gotta start somewhere!"        | "Complete a weekly goal." |       0           |    1            |              false|
          * ------------------------------------------------------------------------------------------------------------------------
          * "Slow and steady wins the race!" | Complete 4 weekly goals."   |       0           |   4            |              false|
          * ------------------------------------------------------------------------------------------------------------------------
