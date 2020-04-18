@@ -120,10 +120,12 @@ public class BossRoom extends AppCompatActivity {
                     monster = new EasyMonster(MONSTER_TYPE.valueOf(monsterType),
                             maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
                             expiration,defeated == 1);
+                    break;
                 case MEDIUM:
                     monster = new MediumMonster(MONSTER_TYPE.valueOf(monsterType),
                             maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
                             expiration,defeated == 1);
+                    break;
                 case HARD:
                     monster = new HardMonster(MONSTER_TYPE.valueOf(monsterType),
                             maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,

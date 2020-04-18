@@ -523,7 +523,7 @@ public class LetsEat extends AppCompatActivity {
 
     /**
      * Update the monsters health
-     * TODO: NOT WORKING
+     *
      */
     private void updateMonsterHealth() {
         //Values needed to create the query
@@ -566,10 +566,12 @@ public class LetsEat extends AppCompatActivity {
                     monster = new EasyMonster(MONSTER_TYPE.valueOf(monsterType),
                             maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
                             expiration,defeated == 1);
+                    break;
                 case MEDIUM:
                     monster = new MediumMonster(MONSTER_TYPE.valueOf(monsterType),
                             maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
                             expiration,defeated == 1);
+                    break;
                 case HARD:
                     monster = new HardMonster(MONSTER_TYPE.valueOf(monsterType),
                             maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,

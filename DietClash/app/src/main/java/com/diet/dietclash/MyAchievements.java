@@ -50,6 +50,7 @@ public class MyAchievements extends AppCompatActivity {
         //If no achievements exist in the database
         //Create and insert achievements
         updateMonsterAchievements();
+        achievements = getAchievementsFromDatabase();
         mAdapter = new AchievementAdapter(achievements);
         recyclerView.setAdapter(mAdapter);
     }
