@@ -146,9 +146,6 @@ public class MyAchievements extends AppCompatActivity {
                 "Complete 4 weekly goals.",0,4,false));
         achievements.add(new Achievement("Look at me now!",
                 "Complete 12 weekly goals",0,12,false));
-        achievements.add(new Achievement("Balance Diet!",
-                "Eat the recommended daily diet provided by the America Heart Association.",
-                0,20,false));
         return achievements;
     }
 
