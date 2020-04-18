@@ -75,6 +75,8 @@ public class LetsEat extends AppCompatActivity {
     private int startSomewhereProgress;
     private int slowSteadyProgress;
 
+    private boolean goalMetAtStart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,11 +102,25 @@ public class LetsEat extends AppCompatActivity {
         helper = new FoodDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
 
+        //first, check if we've already completed a goal
+        goalMetAtStart = isGoalMet();
+
         //set inputs to zero.
         resetInput();
         //update text with reset and db read
         refreshAll();
     }
+
+    private boolean isGoalMet() {
+        getWeeklyEatenQuantities();
+        getWeeklyFoodGoals();
+        return weeklyMeatGoal != -1 &&
+                weeklyEatenMeat >= weeklyMeatGoal &&
+                weeklyEatenFruit >= weeklyFruitGoal &&
+                weeklyEatenDairy >= weeklyDairyGoal &&
+                weeklyEatenVeggie >= weeklyVeggieGoal;
+    }
+
 
     private void readDb(){
         // reading values in db. Leaving for now
@@ -313,38 +329,31 @@ public class LetsEat extends AppCompatActivity {
         //find our weekly progress for food eaten
         getWeeklyEatenQuantities(); //collect weekly consumption from db -- TESTED
         getWeeklyFoodGoals(); //collect weekly goals from db - Pulled from another activity
-        getFoodAchievements(); //collect the achievements from the db
         updateWeeklyTotal(); //update the weekly consumption view -- TESTED
         //look at progress for first and second achievements
-        assessAchievement(weeklyEatenMeat,weeklyEatenFruit,weeklyEatenDairy,weeklyEatenVeggie,
-                weeklyMeatGoal,weeklyFruitGoal,weeklyDairyGoal,weeklyVeggieGoal);
-        updateAchievementProgress();
-
+        assessAchievement();
     }
 
-    private void assessAchievement(int eMeat, int eFruit, int eDairy, int eVeggie, int gMeat, int gFruit, int gDairy, int gVeggie){
-        //Count number of goals:
-        int goalCount = 0;
-        if(eMeat>gMeat){goalCount++;}
-        if(eFruit>gFruit){goalCount++;}
-        if(eDairy>gDairy){goalCount++;}
-        if(eVeggie>gVeggie){goalCount++;}
+    private void assessAchievement(){
+        //get progress so far by reading from db
+        getFoodAchievements(); //collect the achievements from the db
 
-        if(goalCount>=slowSteadyGoal){
-            slowSteadyProgress = 100;
-        } else{
-            slowSteadyProgress=(goalCount * 100 /slowSteadyGoal);
-        }
-
-        if(goalCount>=startSomewhereGoal){
-            startSomewhereProgress = 100;
-        }
-        else{
-            startSomewhereProgress=(goalCount * 100 /startSomewhereGoal);
+        if(weeklyMeatGoal != -1 && !goalMetAtStart &&
+                weeklyEatenMeat >= weeklyMeatGoal &&
+                weeklyEatenFruit >= weeklyFruitGoal &&
+                weeklyEatenDairy >= weeklyDairyGoal &&
+                weeklyEatenVeggie >= weeklyVeggieGoal) {
+            //we've set a new goal - increment!
+            ++startSomewhereProgress;
+            ++slowSteadyProgress;
+            updateAchievementProgress();
         }
     }
 
     private void getWeeklyFoodGoals(){
+        //initialize goals as being -1 for no goal
+        weeklyMeatGoal = weeklyDairyGoal = weeklyFruitGoal = weeklyVeggieGoal = -1;
+
         String[] projection = {FoodServingsContract.FoodServings.COLUMN_NAME_MEAT,
                 FoodServingsContract.FoodServings.COLUMN_NAME_FRUIT,
                 FoodServingsContract.FoodServings.COLUMN_NAME_DAIRY,
@@ -376,9 +385,8 @@ public class LetsEat extends AppCompatActivity {
 
     private void getWeeklyEatenQuantities(){
         String[] projection = {FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY, FoodEntryContract.FoodEntry.COLUMN_NAME_AMOUNT};
-        String[] args = {new SimpleDateFormat("yyyy-MM-dd").format(new Date())};
 
-        args = new String[7]; //duration and 7 days
+        String[] args = new String[7]; //7 days
         String selectString = "";
         for(int i = 0; i < 7; ++i) {
             args[i] = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - (i * 1000 * 60 * 60 * 24)));
