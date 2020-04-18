@@ -29,7 +29,8 @@
                 android:layout_gravity="center"
                 android:background="#009688"
                 android:onClick="myAchievements"
-                android:paddingHorizontal="20dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="30dp"
                 android:text="@string/my_achievements"
                 android:textColor="#FAFAFA" />
         </TableRow>
@@ -50,7 +51,8 @@
                 android:layout_gravity="center"
                 android:background="#FFC107"
                 android:onClick="letsEat"
-                android:paddingHorizontal="20dp"
+                android:paddingStart="55dp"
+                android:paddingEnd="55dp"
                 android:text="@string/let_s_eat"
                 android:textColor="#FAFAFA" />
 
@@ -72,7 +74,8 @@
                 android:layout_gravity="center"
                 android:background="#14C8C8"
                 android:onClick="myProgress"
-                android:paddingHorizontal="20dp"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
                 android:text="@string/my_progress"
                 android:textColor="#FAFAFA" />
 
@@ -95,7 +98,8 @@
                 android:layout_gravity="center"
                 android:background="#FF9800"
                 android:onClick="storesNearMe"
-                android:paddingHorizontal="20dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
                 android:text="@string/stores_near_me"
                 android:textColor="#FAFAFA" />
         </TableRow>
@@ -117,6 +121,8 @@
                 android:background="#8BC34A"
                 android:onClick="getStarted"
                 android:paddingHorizontal="20dp"
+                android:paddingStart="55dp"
+                android:paddingEnd="55dp"
                 android:text="@string/set_goal"
                 android:textColor="#FAFAFA" />
 
@@ -138,7 +144,8 @@
                 android:layout_gravity="center"
                 android:background="#E91E63"
                 android:onClick="bossRoom"
-                android:paddingHorizontal="20dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:text="@string/boss_room"
                 android:textColor="#FAFAFA" />
 
