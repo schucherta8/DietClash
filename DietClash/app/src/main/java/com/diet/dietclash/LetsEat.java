@@ -310,14 +310,15 @@ public class LetsEat extends AppCompatActivity {
 
     private void checkAchievements(){
         //find our weekly progress for food eaten
-        getWeeklyEatenQuantities(); //collect weekly consumption from db
-        getWeeklyFoodGoals(); //collect weekly goals from db
+        getWeeklyEatenQuantities(); //collect weekly consumption from db -- TESTED
+        getWeeklyFoodGoals(); //collect weekly goals from db - Pulled from another activity
         getFoodAchievements(); //collect the achievements from the db
-        updateWeeklyTotal(); //update the weekly consumption view
+        updateWeeklyTotal(); //update the weekly consumption view -- TESTED
         //look at progress for first and second achievements
         assessAchievement(weeklyEatenMeat,weeklyEatenFruit,weeklyEatenDairy,weeklyEatenVeggie,
                 weeklyMeatGoal,weeklyFruitGoal,weeklyDairyGoal,weeklyVeggieGoal);
         //TODO we will need to update the achievements.
+        updateAchievementProgress();
 
     }
 
@@ -459,5 +460,9 @@ public class LetsEat extends AppCompatActivity {
 
         }
         cursor.close();
+    }
+
+    private void updateAchievementProgress(){
+        //TODO
     }
 }
