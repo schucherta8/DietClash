@@ -532,9 +532,20 @@ public class LetsEat extends AppCompatActivity {
                     FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION));
             int defeated = cursor.getInt(cursor.getColumnIndexOrThrow(
                     FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED));
-            monster = MonsterFactory.generateMonster(MONSTER_TYPE.valueOf(monsterType),
-                    maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
-                    expiration,defeated == 1);
+            switch (MONSTER_TYPE.valueOf(monsterType)){
+                case EASY:
+                    monster = new EasyMonster(MONSTER_TYPE.valueOf(monsterType),
+                            maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                            expiration,defeated == 1);
+                case MEDIUM:
+                    monster = new MediumMonster(MONSTER_TYPE.valueOf(monsterType),
+                            maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                            expiration,defeated == 1);
+                case HARD:
+                    monster = new HardMonster(MONSTER_TYPE.valueOf(monsterType),
+                            maxHealth,meatServingGoal,fruitServingGoal,dairyServingGoal,veggieServingGoal,
+                            expiration,defeated == 1);
+            }
         }
         if(monster != null){
             //Check expiration
@@ -547,10 +558,30 @@ public class LetsEat extends AppCompatActivity {
                 boolean isExpired = expiration.before(today);
                 if(!isExpired){
                     //Subtract entry from monster total servings
-                    monster.setMeatServings(monster.getMeatServings() - meatCount);
-                    monster.setFruitServings(monster.getFruitServings() - fruitCount);
-                    monster.setDairyServings(monster.getDairyServings() - dairyCount);
-                    monster.setVeggieServings(monster.getVeggieServings() - veggieCount);
+                    int monsterMeat = monster.getMeatServings() - meatCount;
+                    int monsterFruit = monster.getFruitServings() - fruitCount;
+                    int monsterDairy = monster.getDairyServings() - dairyCount;
+                    int monsterVeggie = monster.getVeggieServings() - veggieCount;
+                    if(monsterMeat <= 0){
+                        monster.setMeatServings(0);
+                    }else{
+                        monster.setMeatServings(monsterMeat);
+                    }
+                    if(monsterFruit <= 0){
+                        monster.setFruitServings(0);
+                    }else{
+                        monster.setFruitServings(monsterFruit);
+                    }
+                    if(monsterDairy <= 0){
+                        monster.setDairyServings(0);
+                    }else{
+                        monster.setDairyServings(monsterDairy);
+                    }
+                    if(monsterVeggie <= 0){
+                        monster.setVeggieServings(0);
+                    }else{
+                        monster.setVeggieServings(monsterVeggie);
+                    }
                     //If monster is killed, set defeated to true
                     if(monster.getHealthRemainder() <= 0){
                         monster.setDefeated(true);
@@ -574,6 +605,9 @@ public class LetsEat extends AppCompatActivity {
                             FoodDungeonContract.FoodDungeon.COLUMN_NAME_VEGGIE_SERVINGS,
                             monster.getVeggieServings()
                     );
+                    if(monster.isDefeated()){
+                        contentValues.put(FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED,1);
+                    }
                     String WHERE = FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION+"=?";
                     db.update(TABLE_NAME,contentValues,WHERE,new String[]{expiredDate});
                 }
