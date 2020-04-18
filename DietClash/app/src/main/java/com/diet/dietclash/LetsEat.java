@@ -322,19 +322,22 @@ public class LetsEat extends AppCompatActivity {
     }
 
     private void assessAchievement(int eMeat, int eFruit, int eDairy, int eVeggie, int gMeat, int gFruit, int gDairy, int gVeggie){
-        //TODO FIRST ACHIEVEMENT (one serving of the four)
-        if((eMeat>gMeat)
-                || (eFruit>gFruit)
-                || (eDairy>gDairy)
-                || (eVeggie>gVeggie)){
-            //Goal complete for at least one serving.
+        //Count number of goals:
+        int goalCount = 0;
+        if(eMeat>gMeat){goalCount++;}
+        if(eFruit>gFruit){goalCount++;}
+        if(eDairy>gDairy){goalCount++;}
+        if(eVeggie>gVeggie){goalCount++;}
+
+        if(goalCount>=slowSteadyGoal){
+            slowSteadyProgress = 100;
         }
-        //TODO SECOND ACHIEVEMENT (all four)
-        if((eMeat>gMeat)
-                && (eFruit>gFruit)
-                && (eDairy>gDairy)
-                && (eVeggie>gVeggie)){
-            //Goal complete for 4 servings.
+
+        if(goalCount>=startSomewhereGoal){
+            startSomewhereProgress = 100;
+        }
+        else{
+            startSomewhereProgress=(goalCount/startSomewhereGoal)*100;
         }
     }
 
