@@ -54,7 +54,7 @@ public class BossRoom extends AppCompatActivity {
             monsterHealthBar.setProgress(0);
             progress.setText("");
             total.setText("");
-            status.setText("There's nothing here.");
+            status.setText("I wonder what this place is.");
         }
     }
 
@@ -78,6 +78,7 @@ public class BossRoom extends AppCompatActivity {
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION,
                 FoodDungeonContract.FoodDungeon.COLUMN_NAME_DEFEATED};
         //Most recent AbstractMonster aka most recent start date or latest end date
+       //TODO: NOT SORTING BY DATE CORRECTLY
         String SORT_ORDER = FoodDungeonContract.FoodDungeon.COLUMN_NAME_EXPIRATION+ " DESC";
 
         //Query the table for the serving goal per food group.

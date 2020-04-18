@@ -263,8 +263,7 @@ public class LetsEat extends AppCompatActivity {
             db.update(FoodEntryContract.FoodEntry.TABLE_NAME, values, FoodEntryContract.FoodEntry.COLUMN_NAME_CATEGORY+"=? AND "
                     +FoodEntryContract.FoodEntry.COLUMN_NAME_DATE+"=?", whereArgs);
         }
-        //TODO: UPDATE MONSTER HEALTH HERE, NEED TO KNOW IF A GOAL BEEN SET
-        //Check first monster record. If expired....do no updates. Else Update monster health
+        updateMonsterHealth();
         resetInput();
         refreshAll();
         cancelNotification();
@@ -488,5 +487,17 @@ public class LetsEat extends AppCompatActivity {
                 value,
                 FoodAchievementsContract.FoodAchievements.COLUMN_NAME_PROGRESS+"=?",
                 args2);
+    }
+
+    /**
+     * TODO:UPDATE MONSTER HEALTH
+     * Get the monster recently added.
+     * -Either by date or possibly by id?
+     * Simply check if the monster is expired
+     * -Done by checking if the expired date is behind current date
+     * If not expired, update monster
+     */
+    private void updateMonsterHealth(){
+
     }
 }
