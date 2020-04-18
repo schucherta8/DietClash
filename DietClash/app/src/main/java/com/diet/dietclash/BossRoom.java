@@ -32,7 +32,6 @@ public class BossRoom extends AppCompatActivity {
         total = findViewById(R.id.monster_health_total);
 
         readMonsterFromDB();
-        //TODO:NEED PICTURE FOR 3 TYPES OF MONSTERS AND A QUESTION MARK IMAGE
         //If there exist at least a monster
         if(monster != null){
             //Check for expiration

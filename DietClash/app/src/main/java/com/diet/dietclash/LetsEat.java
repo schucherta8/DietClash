@@ -318,7 +318,6 @@ public class LetsEat extends AppCompatActivity {
         //look at progress for first and second achievements
         assessAchievement(weeklyEatenMeat,weeklyEatenFruit,weeklyEatenDairy,weeklyEatenVeggie,
                 weeklyMeatGoal,weeklyFruitGoal,weeklyDairyGoal,weeklyVeggieGoal);
-        //TODO we will need to update the achievements.
         updateAchievementProgress();
 
     }
@@ -545,7 +544,7 @@ public class LetsEat extends AppCompatActivity {
             try{
                 Date expiration = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(expiredDate);
                 Date today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(todayDate);
-                boolean isExpired = today.before(expiration);
+                boolean isExpired = expiration.before(today);
                 if(!isExpired){
                     //Subtract entry from monster total servings
                     monster.setMeatServings(monster.getMeatServings() - meatCount);
